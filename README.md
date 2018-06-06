@@ -2,7 +2,15 @@
 Publish-Subscrib Pattern Implementation
 
 ## usage
+```bash
+$ npm install --save eventset
+
+```
+
 ```js
+
+var EventSet = require('eventset').default;
+
 var eventSet = new EventSet();
 var eventName = 'my.event';
 
