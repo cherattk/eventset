@@ -1,9 +1,11 @@
 import assert from 'assert';
+
+// import app's build file
 import {default as EventHook} from '../../build/eventhook.js';
 
 describe("Test EventHook Class - " , function () {
 
-    it("Test beforeNotify() \n\
+    it("Test beforeNotify(function) \n\
         " , function () {
         
         var eventHook = new EventHook();
@@ -18,7 +20,7 @@ describe("Test EventHook Class - " , function () {
     });
 
 
-    it("Test afterNotify() \n\
+    it("Test afterNotify(function) \n\
         " , function () {
         
         var eventHook = new EventHook();

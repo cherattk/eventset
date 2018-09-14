@@ -1,57 +1,71 @@
 import assert from 'assert';
+
+// import app's build file
 import {default as EventSet} from '../../build/eventset.js';
 
 describe("Test EventSet Class" , function () {
 
-    it("Test addListener() \n\
+    it("Test addListener(event : string , listener : Object) \n\
         " , function () {
 
         var eventSet = new EventSet();
-        var listenerObject = {
-            notification : function(event_name , event_message){
-                
-            }
-        };
+        var firstListener = function(){};
         
         var myEvent = "my.event";
-        eventSet.addListener(myEvent , listenerObject);
-        eventSet.addListener(myEvent , listenerObject);
-        eventSet.addListener(myEvent , listenerObject);
         
-        var anotherListener = {
-            name : "another_listener",
-            notification : function(event_name , event_message){
-                
-            }
-        };
-
-        var listenerSet = eventSet.addListener(myEvent , anotherListener); 
-        assert.equal(listenerSet.size , 2); // there is 2 listeners
-        assert.equal(listenerSet.has(listenerObject) , true);
-        assert.equal(listenerSet.has(anotherListener) , true);
+        eventSet.addListener(myEvent , firstListener);
+        eventSet.addListener(myEvent , firstListener);
+        var listenerSet_1 =  eventSet.addListener(myEvent , firstListener);
+        
+        // only one instance of the firstListener is registered
+        assert.equal(listenerSet_1.size , 1);   
+        
+        var secondeListener = function(){};
+        var listenerSet_2 = eventSet.addListener(myEvent , secondeListener);
+        
+        assert.equal(listenerSet_2.size , 2);
+        assert.equal(listenerSet_2.has(firstListener) , true);
+        assert.equal(listenerSet_2.has(secondeListener) , true);
         
     });
     
-    it("Test removeListener() \n\
+    it("Test getListenerSet(event) \n\
+        " , function () {
+    
+        var eventSet = new EventSet();
+        var firstListener = function(){};
+        
+        var myEvent = "my.event";        
+            eventSet.addListener(myEvent , firstListener);
+        
+        var listenerSet = eventSet.getListenerSet(myEvent);
+        
+        assert.equal(listenerSet instanceof Set , true);
+        assert.equal(listenerSet.size , 1);
+    });
+    
+    it("Test removeListener(event , listener) \n\
         " , function(){
 
         var eventSet = new EventSet();
 
-        var listener   = {listener:"listener"};
-        var listener_2 = {listener_2:"listener"};
+        var firstListener = function(){};
+        var secondeListener = function(){};
         
         var myEvent = "my.event";
         
-        assert.equal(eventSet.removeListener(myEvent , listener) , undefined);
+        assert.equal(eventSet.removeListener(myEvent , firstListener) , undefined);
 
-        eventSet.addListener(myEvent , listener);
-        eventSet.addListener(myEvent , listener_2);
+        eventSet.addListener(myEvent , firstListener);
+        var listenerSet_1 = eventSet.addListener(myEvent , secondeListener);
+        assert.equal(listenerSet_1.size , 2);
 
-        var listenerSet = eventSet.removeListener(myEvent , listener);
-        assert.equal(listenerSet.has(listener_2) , true);
+        var listenerSet_2 = eventSet.removeListener(myEvent , firstListener);
+        assert.equal(listenerSet_2.size , 1);
+        assert.equal(listenerSet_2.has(secondeListener) , true);
     });
 
-    it("Test triggerEvent() \n\
+    it("Test triggerEvent(event , message) \n\
         " , function () {
 
         var eventSet = new EventSet();
@@ -59,26 +73,22 @@ describe("Test EventSet Class" , function () {
         var myEvent = "my.event";
         var message = "event-message";
 
-        // listener object that implements notification() method
-        var listenerObject = {
-                data : {},
-                notification : function(event_name , event_message){
-                    this.data = {
-                        event : event_name,
-                        message : event_message
-                    };
-                }
+        var listener = {
+            data : '',
+            eventName : '',
+            EventSetNotification : function(event_message , eventName){
+                this.data = event_message + "-after-callback";
+                this.eventName = eventName;
+            }
         };
-
+        
         // 1
-        eventSet.addListener(myEvent , listenerObject);
-
+        eventSet.addListener(myEvent , listener);
         // 2
         eventSet.triggerEvent(myEvent , message);
-
-        // 3 
-        assert.equal(listenerObject.data.event , myEvent);
-        assert.equal(listenerObject.data.message , message);
+        
+        assert.equal(listener.data , message+"-after-callback");
+        assert.equal(listener.eventName , myEvent);
         
     });
 });

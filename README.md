@@ -1,5 +1,5 @@
 # EventSet
-Publish-Subscrib Pattern Implementation
+Publish-Subscribe Implementation with Hooks before and after notification
 
 ## usage
 ```bash
@@ -15,10 +15,11 @@ var eventSet = new EventSet();
 var eventName = 'my.event';
 
 /**
-* the listener MUST be a Object with method named .notification()
+* the listener MUST be an Object that 
+* implements .EventSetNotification() method to receive the event
 */
 var listenerObject = {
-        notification : function(event_name , event_message){
+        EventSetNotification : function(event_name , event_message){
             console.log(event_name);
             console.log(event_message);
         }

@@ -15,18 +15,14 @@ export default class Hook{
     }
 
     beforeNotify(userCallBack){
-        if( (!!userCallBack) && typeof userCallBack === "function"){
-           this.before = function(message){
-                return userCallBack(message);
-           };
+        if(typeof userCallBack === "function"){
+           this.before = userCallBack;
         }
     }
 
     afterNotify(userCallBack){ 
-        if( (!!userCallBack) && typeof userCallBack === "function"){
-            this.after = function(message){
-                return userCallBack(message);
-            };
+        if(typeof userCallBack === "function"){
+            this.after = userCallBack;
         }
     }
 }

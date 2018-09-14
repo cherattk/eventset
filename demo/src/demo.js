@@ -1,10 +1,11 @@
 var EventSet = require('eventset').default;
 
+var eventManager = new EventSet();
+
 /**
- *  I - First Component (Form) 
- *      That Trigger Event
+ *  I - (Form) - Component That will Trigger Event "form.add.task"
  */
-class FormComponent {
+class Form {
 
     constructor(anchor_id , eventSet){
         this.id = 'task_form';
@@ -20,7 +21,7 @@ class FormComponent {
                 </form>`;
     }
 
-    eventHandler(eventSet){
+    eventHandler(){
 
         document.getElementById(this.id).onsubmit = function(e){
 
@@ -29,16 +30,15 @@ class FormComponent {
                 window.alert('Sorry, i can\'t add an empty value to the list');
                 return;
             }            
-            var value = this.elements['task_label'].value;
-            var eventMessage = {
-                        "label" : value
-                    };
+            var value = this.elements['task_label'].value;            
             
             /**
              * Trigger Event
              */
-            var eventName = "add.task";
-            eventSet.triggerEvent(eventName , eventMessage);
+            var eventName = "form.add.task";
+            var eventMessage = { "label" : value };
+            
+            eventManager.triggerEvent(eventName , eventMessage);
             
             this.elements['task_label'].focus();
             this.elements['task_label'].value = '';
@@ -49,23 +49,34 @@ class FormComponent {
 
 
 /**
- *  II - Seconde Component (List) 
- *      That Listen to FirstComponent (Form)
+ *  II - "List" Component That Listen to "add.task" Event
  */
-class ListComponent {
+class List {
 
-    constructor(anchor_id , eventSet){
+    constructor(anchor_id){
         // 1-
         this.id = 'task_list';
         this.dataView = [];
         this.initView(anchor_id);        
         this.listView();
         
-        /**
-         *  Register ListComponent to "add.task" Event
-         */
-        this.eventToListenTo = "add.task";
-        eventSet.addListener(this.eventToListenTo , this  /* ListComponent instance */);
+        // Register List to listen to "add.task" Event
+        eventManager.addListener("form.add.task" , this);
+    }
+    
+    EventSetNotification(message , eventname){
+        
+        switch(eventname){
+            case 'form.add.task':
+                this.dataView.push(message);
+                this.listView();
+            break;
+            default:
+                var msg = 'ERROR : I don\'t know what to do with this event : ' + eventname;
+                alert("message from Form : " + msg );
+                console.log(msg);
+                
+        }
     }
     
     initView(anchor_id){
@@ -88,22 +99,12 @@ class ListComponent {
             });
         }
     }
-    /**
-     * notification() is a required method to receive the message
-     * from event trigger component
-     */
-    notification(event_name , message){        
-        var dataView = this.dataView.push(message);
-        if(event_name === this.eventToListenTo){
-            this.listView(dataView);
-        }
-    }
+    
 }
 
 // III =========================================
-var eventSet = new EventSet();
-new FormComponent('anchor_form' , eventSet);
-new ListComponent('anchor_list' , eventSet);
+new Form('anchor_form');
+new List('anchor_list');
 
 
 

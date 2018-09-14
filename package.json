@@ -1,6 +1,6 @@
 {
     "name": "eventset",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Publish-Subscribe Implementation with Hooks before and after notification",
     "author": "Karim Cheratt",
     "license": "MIT",
@@ -11,13 +11,14 @@
         ]
     },
     "scripts": {
-        "prebuild": "npm run test",
-        "build": "npm install --save-dev && node build-package-file.js",
-        "postbuild": "cd demo/ && npm install && npm run build",
-        "build:app": "rimraf ./build/* && babel ./src --out-dir ./build --source-maps",
-        "build:test": "rimraf ./test/build/* && babel ./test/src --out-dir ./test/build --source-maps",
+        "test": "npm run test:eventset && npm run test:eventhook",
+        "test:eventset": "mocha --colors test/build/EventSetTest.js",
+        "test:eventhook": "mocha --colors test/build/EventHookTest.js",
         "pretest": "npm run build:app && npm run build:test",
-        "test": "mocha --colors test/build/EventSetTest.js test/build/EventHookTest.js"
+        "posttest": "npm run build:demo",
+        "build:app": "rimraf ./build/* && babel ./src --out-dir ./build --source-maps && node build-package-file.js",
+        "build:test": "rimraf ./test/build/* && babel ./test/src --out-dir ./test/build --source-maps",
+        "build:demo": "cd demo/ && npm install && npm run build:browser"
     },
     "devDependencies": {
         "babel-cli": "6.26.0",
