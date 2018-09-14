@@ -18,7 +18,7 @@
         "posttest": "npm run build:demo",
         "build:app": "rimraf ./build/* && babel ./src --out-dir ./build --source-maps && node build-package-file.js",
         "build:test": "rimraf ./test/build/* && babel ./test/src --out-dir ./test/build --source-maps",
-        "build:demo": "cd demo/ && npm install && npm run build:browser"
+        "build:demo": "cd demo/ && npm install && npm run build"
     },
     "devDependencies": {
         "babel-cli": "6.26.0",

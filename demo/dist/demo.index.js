@@ -93,10 +93,15 @@ var EventSet = function () {
         });
     }
 
+    /**
+     * @return Hook "API" for specifique event
+     */
+
+
     _createClass(EventSet, [{
         key: 'EventHook',
-        value: function EventHook(event) {
-            var eventKey = this.generateEventKey(event);
+        value: function EventHook(eventName) {
+            var eventKey = this.generateEventKey(eventName);
             if (!MapHook.has(eventKey)) {
                 MapHook.set(eventKey, new _eventhook2.default());
             }
@@ -145,23 +150,24 @@ var EventSet = function () {
         key: 'triggerEvent',
         value: function triggerEvent(event, message) {
 
-            var msg_step_1 = this.EventHook('default').before(message);
+            var msg_hook_1 = this.EventHook('default').before(message);
 
-            var msg_step_2 = this.EventHook(event).before(msg_step_1);
+            //        var msg_hook_2 = this.EventHook(event).before(msg_hook_1);
 
             /****************** notify listeners ******************/
             var listenerSet = this.getListenerSet(event);
 
             if (listenerSet instanceof Set) {
                 listenerSet.forEach(function (listener) {
-                    listener.EventSetNotification(msg_step_2, event);
+                    listener.EventSetNotification(msg_hook_1, event);
                 });
             }
             /*******************************************************/
 
-            var msg_step_3 = this.EventHook(event).after(msg_step_2);
+            var msg_hook_3 = this.EventHook('default').after(msg_hook_1);
 
-            var defaultAfterHook = this.EventHook('default').after(msg_step_3);
+            //        this.EventHook(event).after(msg_hook_3);
+
         }
     }]);
 
@@ -190,118 +196,210 @@ exports.default = _eventset2.default; /**
                                        */
 
 },{"./eventset.js":2}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var EventSet = require('eventset').default;
 
-var eventManager = new EventSet();
+var AppEventManager = new EventSet();
 
 /**
- *  I - (Form) - Component That will Trigger Event "form.add.task"
- */
-class Form {
+ * IMPORTANT : EventHook.beforeNotify() MUST return the event message
+*/
 
-    constructor(anchor_id , eventSet){
+var DEFAULT_HOOK = 'default';
+var defaultEventHook = AppEventManager.EventHook(DEFAULT_HOOK);
+
+defaultEventHook.beforeNotify(function (msg) {
+    console.log('Hook action BEFORE notify listeners');
+    msg.label = "value from hook.beforeNotify()";
+    return msg;
+});
+defaultEventHook.afterNotify(function (msg) {
+    console.log('Hook action AFTER notify listeners');
+    return msg;
+});
+
+/**
+ * 
+ */
+var FORM_ADD_TASK = 'form.add.task';
+var addTaskHook = AppEventManager.EventHook(FORM_ADD_TASK);
+
+addTaskHook.beforeNotify(function (msg) {
+    console.log('Hook action BEFORE notify listeners');
+    msg.label = "value from hook.beforeNotify()";
+    return msg;
+});
+addTaskHook.afterNotify(function (msg) {
+    console.log('Hook action AFTER notify listeners');
+    return msg;
+});
+
+exports.default = AppEventManager;
+
+},{"eventset":3}],5:[function(require,module,exports){
+'use strict';
+
+var _demoEvent = require('./demo.event.js');
+
+var _demoEvent2 = _interopRequireDefault(_demoEvent);
+
+var _form = require('./form.js');
+
+var _form2 = _interopRequireDefault(_form);
+
+var _list = require('./list.js');
+
+var _list2 = _interopRequireDefault(_list);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * init app
+ * 
+ * to prevent using EventSet as
+ */
+var anchorFormID = 'anchor_form'; /**
+                                   * 
+                                   */
+
+new _form2.default(anchorFormID, _demoEvent2.default);
+
+var anchorListID = 'anchor_list';
+new _list2.default(anchorListID, _demoEvent2.default);
+
+},{"./demo.event.js":4,"./form.js":6,"./list.js":7}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ *  I - Form : Component That will Trigger Event "form.add.task"
+ */
+var Form = function () {
+    function Form(anchor_id, EventManager) {
+        _classCallCheck(this, Form);
+
         this.id = 'task_form';
         this.initView(anchor_id);
-        this.eventHandler(eventSet);
-    }
-    
-    initView(anchor_id){
-        var anchor = document.getElementById(anchor_id);
-            anchor.innerHTML =  `<form id="${this.id}">
-                    <input type="text" name="task_label" placeholder="Add a task"/>
-                    <input type="submit" value="save"/>
-                </form>`;
+        this.eventHandler(EventManager);
     }
 
-    eventHandler(){
+    _createClass(Form, [{
+        key: 'initView',
+        value: function initView(anchor_id) {
+            var anchor = document.getElementById(anchor_id);
+            anchor.innerHTML = '<form id="' + this.id + '">\n                    <input type="text" name="task_label" placeholder="Add a task"/>\n                    <input type="submit" value="save"/>\n                </form>';
+        }
+    }, {
+        key: 'eventHandler',
+        value: function eventHandler(EventManager) {
 
-        document.getElementById(this.id).onsubmit = function(e){
+            document.getElementById(this.id).onsubmit = function (e) {
 
-            e.preventDefault();
-            if(!this.elements['task_label'].value){
-                window.alert('Sorry, i can\'t add an empty value to the list');
-                return;
-            }            
-            var value = this.elements['task_label'].value;            
-            
-            /**
-             * Trigger Event
-             */
-            var eventName = "form.add.task";
-            var eventMessage = { "label" : value };
-            
-            eventManager.triggerEvent(eventName , eventMessage);
-            
-            this.elements['task_label'].focus();
-            this.elements['task_label'].value = '';
-        };
-    }
-    
-}
+                e.preventDefault();
+                if (!this.elements['task_label'].value) {
+                    window.alert('Sorry, i can\'t add an empty value to the list');
+                    return;
+                }
+                var value = this.elements['task_label'].value;
 
+                /**
+                 * Trigger Event
+                 */
+                var eventName = "form.add.task";
+                var eventMessage = { "label": value };
+
+                EventManager.triggerEvent(eventName, eventMessage);
+
+                this.elements['task_label'].focus();
+                this.elements['task_label'].value = '';
+            };
+        }
+    }]);
+
+    return Form;
+}();
+
+exports.default = Form;
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  *  II - "List" Component That Listen to "add.task" Event
  */
-class List {
+var List = function () {
+    function List(anchor_id, EventManager) {
+        _classCallCheck(this, List);
 
-    constructor(anchor_id){
-        // 1-
         this.id = 'task_list';
         this.dataView = [];
-        this.initView(anchor_id);        
+        this.initView(anchor_id);
         this.listView();
-        
+
         // Register List to listen to "add.task" Event
-        eventManager.addListener("form.add.task" , this);
+        EventManager.addListener("form.add.task", this);
     }
-    
-    EventSetNotification(message , eventname){
-        
-        switch(eventname){
-            case 'form.add.task':
-                this.dataView.push(message);
-                this.listView();
-            break;
-            default:
-                var msg = 'ERROR : I don\'t know what to do with this event : ' + eventname;
-                alert("message from Form : " + msg );
-                console.log(msg);
-                
+
+    // event receiving method
+
+
+    _createClass(List, [{
+        key: 'EventSetNotification',
+        value: function EventSetNotification(message, eventname) {
+
+            switch (eventname) {
+                case 'form.add.task':
+                    this.dataView.push(message);
+                    this.listView();
+                    break;
+                default:
+                    var msg = 'ERROR : I don\'t know what to do with this event : ' + eventname;
+                    alert("message from Form : " + msg);
+                    console.log(msg);
+
+            }
         }
-    }
-    
-    initView(anchor_id){
-        var anchor = document.getElementById(anchor_id);
-            anchor.innerHTML = `<ul id="${this.id}" class="task_list">
-                                <li class="empty-state">Empty List</li>
-                            </ul>`;
-    }    
-    listView(){        
-        if(this.dataView.length){
-            var list = document.getElementById(this.id);
-            list.innerHTML = '';
-            this.dataView.map(function(task){
-               list.innerHTML += `<li>
-                                    <label>
-                                        <input type="checkbox" name="task"/>
-                                        <span class="task">${task.label}</span>
-                                    </label>
-                                    </li>`; 
-            });
+    }, {
+        key: 'initView',
+        value: function initView(anchor_id) {
+            var anchor = document.getElementById(anchor_id);
+            anchor.innerHTML = '<ul id="' + this.id + '" class="task_list">\n                                <li class="empty-state">Empty List</li>\n                            </ul>';
         }
-    }
-    
-}
+    }, {
+        key: 'listView',
+        value: function listView() {
+            if (this.dataView.length) {
+                var list = document.getElementById(this.id);
+                list.innerHTML = '';
+                this.dataView.map(function (task) {
+                    list.innerHTML += '<li>\n                                    <label>\n                                        <input type="checkbox" name="task"/>\n                                        <span class="task">' + task.label + '</span>\n                                    </label>\n                                    </li>';
+                });
+            }
+        }
+    }]);
 
-// III =========================================
-new Form('anchor_form');
-new List('anchor_list');
+    return List;
+}();
 
+exports.default = List;
 
-
-
-
-
-
-},{"eventset":3}]},{},[4]);
+},{}]},{},[5]);
