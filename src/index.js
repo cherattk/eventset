@@ -1,6 +1,6 @@
 /**
  * EventSet
- * @copyright Copyright (c) 2017 cheratt karim
+ * @copyright Copyright (c) 2018 cheratt karim
  * @license MIT
  */
 

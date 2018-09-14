@@ -56,14 +56,19 @@ export default class EventSet {
         var eventKey = this.generateEventKey(event);
         
         if(MapComponent.has(eventKey)){
-                listenerSet = MapComponent.get(eventKey);
-                listenerSet.add(listener);
+            listenerSet = MapComponent.get(eventKey);
+            listenerSet.add(listener);
         }
         else{
-                listenerSet = new Set();
-                listenerSet.add(listener);
-                MapComponent.set(eventKey , listenerSet);
+            listenerSet = new Set();
+            listenerSet.add(listener);
+            MapComponent.set(eventKey , listenerSet);
         }
+        return MapComponent.get(eventKey);
+    }
+    
+    getListenerSet(event){
+        var eventKey = this.generateEventKey(event);
         return MapComponent.get(eventKey);
     }
 
@@ -74,13 +79,11 @@ export default class EventSet {
         var msg_step_2 = this.EventHook(event).before(msg_step_1);
 
         /****************** notify listeners ******************/
-        var eventKey = this.generateEventKey(event);
-
-        var listenerSet = MapComponent.get(eventKey);
+        var listenerSet = this.getListenerSet(event);
 
         if(listenerSet instanceof Set){
             listenerSet.forEach(function(listener){
-                listener.notification(event , msg_step_2);
+                listener.EventSetNotification(msg_step_2 , event);
             });
         }
         /*******************************************************/

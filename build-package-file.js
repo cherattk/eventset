@@ -1,10 +1,13 @@
 var fs = require('fs');
 
-const srcFile = 'package.json';
-const dstFile = 'build/package.json';
+const sourceFile = 'package.json';
+const destinationFile = 'build/package.json';
+const srcReadMe = 'README.md';
+const destReadMe = 'build/README.md';
 const fileEncode = 'utf8';
 
-fs.readFile(srcFile, fileEncode, function(err, data){
+// process and copy ./package.json to ./build/package.json
+fs.readFile(sourceFile, fileEncode, function(err, data){
 
     if (!err){
         var obj = JSON.parse(data);
@@ -15,7 +18,7 @@ fs.readFile(srcFile, fileEncode, function(err, data){
             return value;
         } , "\t");
 
-        fs.writeFile(dstFile, json, fileEncode , function(){
+        fs.writeFile(destinationFile, json, fileEncode , function(){
             console.log(' Done');
         });
 
@@ -23,3 +26,6 @@ fs.readFile(srcFile, fileEncode, function(err, data){
         console.log(err);
     }
 });
+
+// copy ./README.md into ./build folder
+fs.createReadStream(srcReadMe).pipe(fs.createWriteStream(destReadMe));

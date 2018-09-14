@@ -4,7 +4,7 @@
   "description": "eventset usage demonstration",
   "main": "dist/demo.js",
   "scripts": {
-    "build": "browserify ./src/demo.js -o ./dist/demo.js"
+    "build:browser": "browserify ./src/demo.js -o ./dist/demo.js"
   },
   "keywords": [],
   "author": "cheratt karim",
