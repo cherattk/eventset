@@ -9,15 +9,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- *  I - Form : Component That will Trigger Event "form.add.task"
+ *  I - Form : Component that triggers Event "form.add.task"
  */
 var Form = function () {
-    function Form(anchor_id, EventManager) {
+    function Form(anchor_id, AppEventManager) {
         _classCallCheck(this, Form);
 
         this.id = 'task_form';
         this.initView(anchor_id);
-        this.eventHandler(EventManager);
+        this.eventHandler(AppEventManager);
     }
 
     _createClass(Form, [{
@@ -28,7 +28,7 @@ var Form = function () {
         }
     }, {
         key: 'eventHandler',
-        value: function eventHandler(EventManager) {
+        value: function eventHandler(AppEventManager) {
 
             document.getElementById(this.id).onsubmit = function (e) {
 
@@ -45,7 +45,7 @@ var Form = function () {
                 var eventName = "form.add.task";
                 var eventMessage = { "label": value };
 
-                EventManager.triggerEvent(eventName, eventMessage);
+                AppEventManager.triggerEvent(eventName, eventMessage);
 
                 this.elements['task_label'].focus();
                 this.elements['task_label'].value = '';

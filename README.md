@@ -33,3 +33,5 @@ var message = {message:'hello world!'};
 eventSet.triggerEvent(eventName , message);
     
 ```
+
+#### see [demo app](https://github.com/cherattk/eventset/tree/master/demo) for use in a component-based application

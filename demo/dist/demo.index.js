@@ -94,7 +94,7 @@ var EventSet = function () {
     }
 
     /**
-     * @return Hook "API" for specifique event
+     * @return EventHook instance "attached" to event
      */
 
 
@@ -206,37 +206,46 @@ var EventSet = require('eventset').default;
 var AppEventManager = new EventSet();
 
 /**
- * IMPORTANT : EventHook.beforeNotify() MUST return the event message
+ * IMPORTANT : EventHook.beforeNotify() MUST 
+ * @return the processed event message
 */
 
+// The default Hook is applied to all events
 var DEFAULT_HOOK = 'default';
 var defaultEventHook = AppEventManager.EventHook(DEFAULT_HOOK);
 
+// process event message BEFORE notification
 defaultEventHook.beforeNotify(function (msg) {
-    console.log('Hook action BEFORE notify listeners');
-    msg.label = "value from hook.beforeNotify()";
+
+    console.log('Hook action BEFORE notification');
+    // converts a label field of event message to uppercase letters
+    msg.label = msg.label.toUpperCase();
     return msg;
 });
+
+// process the event message AFTER all listeners are notified
 defaultEventHook.afterNotify(function (msg) {
-    console.log('Hook action AFTER notify listeners');
+    console.log('Hook action AFTER notification');
     return msg;
 });
 
 /**
+const FORM_ADD_TASK = 'form.add.task';
+var addTaskHook  = AppEventManager.EventHook(FORM_ADD_TASK);
+
+    addTaskHook.beforeNotify(function(msg){
+        console.log('Hook action BEFORE notify listeners');
+        msg.label = "value from hook.beforeNotify()";
+        return msg;
+    });    
+    addTaskHook.afterNotify(function(msg){
+        console.log('Hook action AFTER notify listeners');
+        return msg;
+    });
+    
+
  * 
  */
-var FORM_ADD_TASK = 'form.add.task';
-var addTaskHook = AppEventManager.EventHook(FORM_ADD_TASK);
-
-addTaskHook.beforeNotify(function (msg) {
-    console.log('Hook action BEFORE notify listeners');
-    msg.label = "value from hook.beforeNotify()";
-    return msg;
-});
-addTaskHook.afterNotify(function (msg) {
-    console.log('Hook action AFTER notify listeners');
-    return msg;
-});
 
 exports.default = AppEventManager;
 
@@ -258,13 +267,11 @@ var _list2 = _interopRequireDefault(_list);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * init app
- * 
- * to prevent using EventSet as
+ * Inject AppEventManager into component
+ * to prevent using EventSet as GLOBAL OBJECT
  */
-var anchorFormID = 'anchor_form'; /**
-                                   * 
-                                   */
+var anchorFormID = 'anchor_form';
+// AppEventManager is an Instance of EventSet
 
 new _form2.default(anchorFormID, _demoEvent2.default);
 
@@ -283,15 +290,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- *  I - Form : Component That will Trigger Event "form.add.task"
+ *  I - Form : Component that triggers Event "form.add.task"
  */
 var Form = function () {
-    function Form(anchor_id, EventManager) {
+    function Form(anchor_id, AppEventManager) {
         _classCallCheck(this, Form);
 
         this.id = 'task_form';
         this.initView(anchor_id);
-        this.eventHandler(EventManager);
+        this.eventHandler(AppEventManager);
     }
 
     _createClass(Form, [{
@@ -302,7 +309,7 @@ var Form = function () {
         }
     }, {
         key: 'eventHandler',
-        value: function eventHandler(EventManager) {
+        value: function eventHandler(AppEventManager) {
 
             document.getElementById(this.id).onsubmit = function (e) {
 
@@ -319,7 +326,7 @@ var Form = function () {
                 var eventName = "form.add.task";
                 var eventMessage = { "label": value };
 
-                EventManager.triggerEvent(eventName, eventMessage);
+                AppEventManager.triggerEvent(eventName, eventMessage);
 
                 this.elements['task_label'].focus();
                 this.elements['task_label'].value = '';
@@ -344,7 +351,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- *  II - "List" Component That Listen to "add.task" Event
+ *  II - "List" Component That Listen to "form.add.task" Event
  */
 var List = function () {
     function List(anchor_id, EventManager) {

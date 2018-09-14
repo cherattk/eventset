@@ -9,7 +9,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- *  II - "List" Component That Listen to "add.task" Event
+ *  II - "List" Component That Listen to "form.add.task" Event
  */
 var List = function () {
     function List(anchor_id, EventManager) {
