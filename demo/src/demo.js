@@ -64,6 +64,7 @@ class List {
         eventManager.addListener("form.add.task" , this);
     }
     
+    // event receiving method
     EventSetNotification(message , eventname){
         
         switch(eventname){
@@ -102,7 +103,9 @@ class List {
     
 }
 
-// III =========================================
+/**
+ * init components
+ */ 
 new Form('anchor_form');
 new List('anchor_list');
 
