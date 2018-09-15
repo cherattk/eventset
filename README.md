@@ -34,4 +34,19 @@ eventSet.triggerEvent(eventName , message);
     
 ```
 
-#### see [demo app](https://github.com/cherattk/eventset/tree/master/demo) for use in a component-based application
+### To run the [demo app](https://github.com/cherattk/eventset/tree/master/demo)
+##### install source
+```
+$  git clone https://github.com/cherattk/eventset.git
+```
+##### install dependencies
+```
+$ cd eventset
+$ npm install
+```
+##### run the tests : 
+All src files will be compiled before running the tests. See ./package.json scripts for more details
+```
+$ npm run test
+```
+##### open ./demo/demo.html
