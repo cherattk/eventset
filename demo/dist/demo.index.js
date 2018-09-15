@@ -159,7 +159,7 @@ var EventSet = function () {
 
             if (listenerSet instanceof Set) {
                 listenerSet.forEach(function (listener) {
-                    listener.EventSetNotification(msg_hook_1, event);
+                    listener.EventSetNotification(event, msg_hook_1);
                 });
             }
             /*******************************************************/

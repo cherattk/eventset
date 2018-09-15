@@ -15,9 +15,9 @@ export default class List {
     }
     
     // event receiving method
-    EventSetNotification(message , eventname){
+    EventSetNotification(event , message){
         
-        switch(eventname){
+        switch(event){
             case 'form.add.task':
                 this.dataView.push(message);
                 this.listView();

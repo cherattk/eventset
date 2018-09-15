@@ -76,7 +76,7 @@ describe("Test EventSet Class" , function () {
         var listener = {
             data : '',
             eventName : '',
-            EventSetNotification : function(event_message , eventName){
+            EventSetNotification : function(eventName , event_message){
                 this.data = event_message + "-after-callback";
                 this.eventName = eventName;
             }
