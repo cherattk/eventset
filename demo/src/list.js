@@ -1,6 +1,9 @@
 /**
  *  II - "List" Component That Listen to "form.add.task" Event
  */
+
+import {DataModelEvent} from './demo.event.js';
+
 export default class List {
 
     constructor(anchor_id , EventManager){
@@ -10,24 +13,25 @@ export default class List {
         this.initView(anchor_id);        
         this.listView();
         
-        // Register List to listen to "add.task" Event
-        EventManager.addListener("form.add.task" , this);
+        /** 
+         * List component is now listening to  
+         * "form.add.task" event of "business-data" topic
+        */
+         DataModelEvent.AddListener("form.add.task" , this.EventSetNotification.bind(this));
     }
     
     // event receiving method
-    EventSetNotification(event , message){
-        
-        switch(event){
+    EventSetNotification(event){
+       switch(event.name){
             case 'form.add.task':
-                this.dataView.push(message);
+                this.dataView.push(event.message);
                 this.listView();
             break;
             default:
-                var msg = 'ERROR : I don\'t know what to do with this event : ' + eventname;
-                alert("message from Form : " + msg );
-                console.log(msg);
-                
+                alert("message from Form : " + 
+                        'ERROR : I don\'t know what to do with this event : ' + event.name );            
         }
+        
     }
     
     initView(anchor_id){
@@ -39,15 +43,17 @@ export default class List {
     listView(){        
         if(this.dataView.length){
             var list = document.getElementById(this.id);
-            list.innerHTML = '';
+            var view = '';
             this.dataView.map(function(task){
-               list.innerHTML += `<li>
-                                    <label>
-                                        <input type="checkbox" name="task"/>
-                                        <span class="task">${task.label}</span>
-                                    </label>
-                                    </li>`; 
+               view += `<li>
+                        <label>
+                            <input type="checkbox" name="task"/>
+                            <span class="task">${task.label}</span>
+                        </label>
+                        </li>`;
             });
+
+            list.innerHTML = view;
         }
     }
     

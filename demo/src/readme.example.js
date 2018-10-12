@@ -1,12 +1,3 @@
-# EventSet
-Topic-based Pub-Sub Implementation
-
-## usage
-```bash
-$ npm install --save eventset
-
-```
-```js
 // ES6 import
 import EventSet from 'eventset';
 //or 
@@ -39,25 +30,3 @@ DataModelEvent.AddListener(myEvent.name , EventNotification);
 // trigger event
 UIEvent.trigger(myEvent.name , myEvent.message);
 DataModelEvent.trigger(myEvent.name , myEvent.message);
-    
-```
-### To run the [demo app](https://github.com/cherattk/eventset/tree/master/demo)
-##### 1) install source
-```
-$  git clone https://github.com/cherattk/eventset.git
-```
-##### 2) install dependencies and compile src/* and test/src/* files
-```
-$ cd eventset
-$ npm install
-$ npm run build
-```
-##### 3) install demo
-```
-$ npm run build:demo
-```
-##### run the README example
-```
-$ node demo/dist/readme.example.js
-```
-##### or open ./demo/demo.html

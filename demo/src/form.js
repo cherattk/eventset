@@ -1,12 +1,15 @@
 /**
  *  I - Form : Component that triggers Event "form.add.task"
  */
+
+import {DataModelEvent} from './demo.event.js';
+
 export default class Form {
 
-    constructor(anchor_id , AppEventManager){
+    constructor(anchor_id){
         this.id = 'task_form';
         this.initView(anchor_id);
-        this.eventHandler(AppEventManager);
+        this.eventHandler();
     }
     
     initView(anchor_id){
@@ -17,7 +20,7 @@ export default class Form {
                 </form>`;
     }
 
-    eventHandler(AppEventManager){
+    eventHandler(){
 
         document.getElementById(this.id).onsubmit = function(e){
 
@@ -31,10 +34,8 @@ export default class Form {
             /**
              * Trigger Event
              */
-            var eventName = "form.add.task";
-            var eventMessage = { "label" : value };
-            
-            AppEventManager.triggerEvent(eventName , eventMessage);
+            var eventMessage = { "label" : value };            
+            DataModelEvent.trigger("form.add.task" , eventMessage);
             
             this.elements['task_label'].focus();
             this.elements['task_label'].value = '';

@@ -1,51 +1,10 @@
-var EventSet = require('eventset').default;
+import EventSet from 'eventset';
 
-var AppEventManager = new EventSet();
+// define topics
+const UIEvent  = new EventSet('ui');
+const DataModelEvent  = new EventSet('data-model');
 
-/**
- * IMPORTANT : EventHook.beforeNotify() MUST 
- * @return the processed event message
-*/
-
-// The default Hook is applied to all events
-const DEFAULT_HOOK = 'default';
-var defaultEventHook  = AppEventManager.EventHook(DEFAULT_HOOK);
-
-    // process event message BEFORE notification
-    defaultEventHook.beforeNotify(function(msg){
-        
-        console.log('Hook action BEFORE notification');        
-        // converts a label field of event message to uppercase letters
-        msg.label = msg.label.toUpperCase();
-        return msg;
-    });
-    
-    // process the event message AFTER all listeners are notified
-    defaultEventHook.afterNotify(function(msg){
-        console.log('Hook action AFTER notification');
-        return msg;
-    });
-    
-
-/**
-const FORM_ADD_TASK = 'form.add.task';
-var addTaskHook  = AppEventManager.EventHook(FORM_ADD_TASK);
-
-    addTaskHook.beforeNotify(function(msg){
-        console.log('Hook action BEFORE notify listeners');
-        msg.label = "value from hook.beforeNotify()";
-        return msg;
-    });    
-    addTaskHook.afterNotify(function(msg){
-        console.log('Hook action AFTER notify listeners');
-        return msg;
-    });
-    
-
- * 
- */
-
-export default AppEventManager;
+export {UIEvent , DataModelEvent};
 
 
 

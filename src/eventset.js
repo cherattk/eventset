@@ -4,97 +4,99 @@
  * @license MIT Licence
  */
 
-import EventHook from './eventhook.js';
+/** @package */
+var TopicStore = new Map();
 
-/**  @package */
-var MapComponent;
-
-/**  @package */
-var MapHook;
+function isString(param){
+    return (typeof param === 'string' && param !== '');
+}
 
 export default class EventSet {
-    
-    constructor() {
 
-        MapComponent = new Map();
-        MapHook = new Map();
-        this.EventHook('default').beforeNotify(function(message){
-            return message;
-        });
+    constructor(topicName) {
+        if(!isString(topicName)){
+            throw new TypeError('bad argument given to EventSet();');
+        }
 
-        this.EventHook('default').afterNotify(function(message){
-            return message;
-        });
+        var topic_name = this.genKey(topicName);
+        
+        if(!TopicStore.has(topic_name)){
+            TopicStore.set(topic_name , new Map());
+        }
+
+        this.getTopicName = function(){
+            return (topic_name);
+        }
+
     }
+
+    genKey(name){
+        return name.toString().toLowerCase().replace(/\s/g, "");
+    }
+
+    clear(){
+        return TopicStore.delete(this.getTopicName());
+    }   
 
     /**
-     * @return EventHook instance "attached" to event
+     * @return Map<event : string, listener : Set>
      */
-    EventHook(eventName){
-        var eventKey = this.generateEventKey(eventName);
-        if(!MapHook.has(eventKey)){            
-            MapHook.set(eventKey , new EventHook());
-        }
-        return MapHook.get(eventKey);
-    }
+    get EventMap(){
+        return TopicStore.get(this.getTopicName());
+    };
 
-    generateEventKey(event){
-        return event.toLowerCase().replace(/\s/g, "");
-    }
+    /**
+     * prevent overriding
+     */
+    set EventMap(param){}
 
-    removeListener(event , listener){
+    removeListener(eventName , listener){
 
-        var eventKey = this.generateEventKey(event);
-        if(MapComponent.has(eventKey)){
-            let listenerSet = MapComponent.get(eventKey);
+        var eventKey = this.genKey(eventName);
+        if(this.EventMap.has(eventKey)){
+            let listenerSet = this.EventMap.get(eventKey);
                 listenerSet.delete(listener);
         }
-        return MapComponent.get(eventKey);
+        return this.EventMap.get(eventKey);
     }
 
 
-    addListener(event , listener){
+    AddListener(eventName , listener){
 
         var listenerSet;
-        var eventKey = this.generateEventKey(event);
+        var eventKey = this.genKey(eventName);
         
-        if(MapComponent.has(eventKey)){
-            listenerSet = MapComponent.get(eventKey);
+        if(this.EventMap.has(eventKey)){
+            listenerSet = this.EventMap.get(eventKey);
             listenerSet.add(listener);
         }
         else{
             listenerSet = new Set();
             listenerSet.add(listener);
-            MapComponent.set(eventKey , listenerSet);
+            this.EventMap.set(eventKey , listenerSet);
         }
-        return MapComponent.get(eventKey);
+        return this.EventMap.get(eventKey);
     }
     
-    getListenerSet(event){
-        var eventKey = this.generateEventKey(event);
-        return MapComponent.get(eventKey);
+    getListenerSet(eventName){
+        var eventKey = this.genKey(eventName);
+        return this.EventMap.get(eventKey);
     }
 
-    triggerEvent(event , message){
-        
-        var msg_hook_1 = this.EventHook('default').before(message);
-        
-//        var msg_hook_2 = this.EventHook(event).before(msg_hook_1);
+    trigger(eventName , message){
 
-        /****************** notify listeners ******************/
-        var listenerSet = this.getListenerSet(event);
+        var copyMessage = JSON.parse(JSON.stringify(message));
+        var listenerSet = this.getListenerSet(eventName);
+        var topicName = this.getTopicName();
 
         if(listenerSet instanceof Set){
-            listenerSet.forEach(function(listener){
-                listener.EventSetNotification(event , msg_hook_1);
+            listenerSet.forEach(function(listenerAction){
+                listenerAction({
+                    topic : topicName,
+                    name : eventName, 
+                    message: copyMessage
+                });
             });
         }
-        /*******************************************************/
-
-        var msg_hook_3 = this.EventHook('default').after(msg_hook_1);
-        
-//        this.EventHook(event).after(msg_hook_3);
-
-
     }
 }
