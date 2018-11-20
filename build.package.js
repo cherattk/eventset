@@ -1,10 +1,8 @@
 var fs = require('fs');
 
+const fileEncode = 'utf8';
 const srcPackageFile = 'package.json';
 const destPackageFile = 'build/package.json';
-const srcReadMe = 'README.md';
-const destReadMe = 'build/README.md';
-const fileEncode = 'utf8';
 
 // process and copy ./package.json to ./build/package.json
 fs.readFile(srcPackageFile, fileEncode, function(err, data){
@@ -28,4 +26,6 @@ fs.readFile(srcPackageFile, fileEncode, function(err, data){
 });
 
 // copy ./README.md into ./build folder
-fs.createReadStream(srcReadMe).pipe(fs.createWriteStream(destReadMe));
+fs.createReadStream('README.md').pipe(fs.createWriteStream('build/README.md'));
+fs.createReadStream('CHANGELOG.md').pipe(fs.createWriteStream('build/CHANGELOG.md'));
+fs.createReadStream('src/index.js').pipe(fs.createWriteStream('build/index.js'));
