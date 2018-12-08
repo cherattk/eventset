@@ -1,17 +1,20 @@
 # EventSet
 Topic-based Pub-Sub Implementation
 
-### usage
+##### usage
 ```bash
 $ npm install --save eventset
 ```
-### test
+##### Install
+```bash
+$ git clone https://github.com/cherattk/eventset.git
+``` 
+##### test
 ```bash
 $ npm run test
 ```
 
 ### example
-```
-$ git clone https://github.com/cherattk/eventset.git
+```bash
 $ node example/example.js
 ```
