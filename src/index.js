@@ -3,106 +3,155 @@
  * @copyright Copyright (c) 2018 cheratt karim
  * @license MIT Licence
  */
-var isString = function(param){
-    return (typeof param === 'string' && param !== '');
-}
 
-var token = function(name){
-    return name.toString().toLowerCase().replace(/\s/g, "");
-}
-
-var EventMap = function(topicName){
+var Topic = function Topic(topicName){
 
     var _eventMap = new Map();
 
-    this.getTopicName = function(){
+    /**
+     * Get Topic Name
+     * 
+     * @returns {string} topic name
+     */
+    this.getName = function(){
         return topicName;
     }
 
+
+    /**
+     * Get all topic events
+     * 
+     * @returns {Array<string>}
+     */
+    this.getEvent = function (){
+        var result = Array.from(_eventMap.keys());
+        return result;
+    }
+
+    /**
+     * Add the event to the topic
+     * 
+     * @param   {string} eventName - event name
+     * 
+     * @returns {Array<string>}
+     */
     this.addEvent = function (eventName){
-        if(!isString(topicName)){
+        if(!EventSet.isString(eventName)){
             throw new TypeError('bad argument given to addEvent()');
         }
-        var eventToken = token(eventName);
+        var eventToken = EventSet.token(eventName);
         if(!_eventMap.has(eventToken)){
             _eventMap.set(eventToken , new Set());
-            return true;
+        }      
+
+        return this.getEvent();
+    }
+
+    /**
+     * Remove the event from the topic and all its event listeners
+     * 
+     * @param {string} eventName
+     * 
+     * @returns {Array<string>}
+     */
+
+    this.removeEvent = function(eventName) {
+        if(!EventSet.isString(eventName)){
+            throw new TypeError('bad argument given to addEvent()');
         }
-        return false;
+        var eventToken = EventSet.token(eventName);
+        if(_eventMap.has(eventToken)){
+            _eventMap.delete(eventToken);
+        }
+
+        return this.getEvent();
     }
     
     /**
-     * @returns Set<any> listener set
+     * Register event listener
+     * 
+     * @param {string} eventName
+     * @param {any} listener
+     * 
+     * @returns {Array<any>}
      */
-    this.addListener = function( eventName , listenerObject){
-        if(!isString(topicName)){
+    this.addListener = function(eventName , listenerValue){
+        if(!EventSet.isString(eventName)){
             throw new TypeError('bad first argument given to addListener()');
         }
-        var eventToken = token(eventName);
+        var eventToken = EventSet.token(eventName);
         if(!_eventMap.has(eventToken)){
             const msg = eventName + ' does not exist';
             throw new Error(msg);
         }
         var listener = _eventMap.get(eventToken);
-            listener.add(listenerObject);
+            listener.add(listenerValue);
         
-        return listener;
+        return Array.from(listener);
     }
 
     /**
-     * @returns Set<any> listener set
+     * Get event listeners
+     * 
+     * @param {string} eventName
+     * 
+     * @returns {Array<any>}
      */    
     this.getListener = function(eventName){
-        if(!isString(topicName)){
+        if(!EventSet.isString(eventName)){
             throw new TypeError('bad argument given to getListener()');
         }
-        var eventToken = token(eventName);
+        var eventToken = EventSet.token(eventName);
         var listener = _eventMap.get(eventToken);
         if(listener === undefined){
-            return new Set();
+            return [];
         }
-        return listener;
+        return Array.from(listener);
     }
     
 
     /**
+     * Remove event listener
      * 
+     * @param {string} eventName
+     * @param {any} listenerValue
+     * 
+     * @retruns {Array<any>}
      */
-    this.removeListener = function(eventName , listenerObject){
-        if(!isString(topicName)){
+    this.removeListener = function(eventName , listenerValue){
+        if(!EventSet.isString(eventName)){
             throw new TypeError('bad first argument given to removeListener()');
         }
-        var eventToken = token(eventName);
+        var eventToken = EventSet.token(eventName);
         if(_eventMap.has(eventToken)){
             var listener = _eventMap.get(eventToken);
-                listener.delete(listenerObject);
-            return listener;
+                listener.delete(listenerValue);
+            return Array.from(listener);
         }
-        return false;
+        return [];
     }
 
     /**
+     * Dispatch event
      * 
+     * @returns {undefined}
      */
     this.dispatch = function(eventName , message){
-        if(!isString(topicName)){
+        if(!EventSet.isString(eventName)){
             throw new TypeError('bad first argument given to dispatch()');
         }
         var copyMessage = JSON.parse(JSON.stringify(message));
-        var listenerSet = this.getListener(eventName);
+        var listenerArray = this.getListener(eventName);
 
-        if(listenerSet instanceof Set){
-            listenerSet.forEach(function(listener){
-
-                if(typeof listener === 'function'){
-                    listener({
-                        topicName    : topicName,
-                        eventName    : eventName, 
-                        eventMessage : copyMessage
-                    });
-                }
-            });
-        }
+        listenerArray.forEach(function(listener){
+            if(typeof listener === 'function'){
+                listener({
+                    topicName    : topicName,
+                    eventName    : eventName, 
+                    eventMessage : copyMessage
+                });
+            }
+        });
     }
 }
 
@@ -110,16 +159,19 @@ var EventMap = function(topicName){
 var EventSet = {
 
     createTopic : function(topicName){
-        if(!isString(topicName)){
+        if(!EventSet.isString(topicName)){
             throw new TypeError('bad argument given to EventSet.createTopic()');
         }
-
-        var eventMap = new EventMap(topicName);        
+        var eventMap = new Topic(topicName);
         return eventMap;
     },
 
-    token : function(name){
-        return token(name);
+    token : function(param){
+        return param.toString().toLowerCase().replace(/\s/g, "");
+    },
+
+    isString : function(param){
+        return (typeof param === 'string' && param !== '');
     }
 }
 

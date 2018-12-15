@@ -1,25 +1,22 @@
 const EventSet = require('../build/index.js');
 
-var dataObject = {};
-
-var listenerAction = function(event){
-    this.topic   = event.topicName;
-    this.event   = event.eventName;
-    this.message = event.eventMessage;
+function myListener(event){
+    console.log('\t topic name    : ' + event.topicName);
+    console.log('\t event name    : ' +  event.eventName);
+    console.log('\t event message : ' + event.eventMessage);
 }
 
 var topic = EventSet.createTopic('topic-1');
+console.log('1) create topic : ' + topic.getName());
 
-// 1
-topic.addEvent('event-1');
+var eventArray = topic.addEvent('event-1');
+console.log('2) register event : ' + eventArray[0]);
 
-// 2
-topic.addListener('event-1' , listenerAction.bind(dataObject));
+var listenerArray = topic.addListener('event-1' , myListener);
+console.log('3) register listener : ' + listenerArray[0].name);
 
-// 3
+console.log('4) dispatch event : ' + eventArray[0]);
+
 topic.dispatch('event-1' , 'hello word');
 
-// result
-console.log('topic name    : ' + dataObject.topic);
-console.log('event name    : ' + dataObject.event);
-console.log('event message : ' + dataObject.message);
+

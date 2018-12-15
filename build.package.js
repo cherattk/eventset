@@ -27,5 +27,4 @@ fs.readFile(srcPackageFile, fileEncode, function(err, data){
 
 // copy ./README.md into ./build folder
 fs.createReadStream('README.md').pipe(fs.createWriteStream('build/README.md'));
-fs.createReadStream('CHANGELOG.md').pipe(fs.createWriteStream('build/CHANGELOG.md'));
 fs.createReadStream('src/index.js').pipe(fs.createWriteStream('build/index.js'));

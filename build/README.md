@@ -18,3 +18,30 @@ $ npm run test
 ```bash
 $ node example/example.js
 ```
+
+### API
+#### EventSet
+
+- EventSet.topic(topicName : string) : Topic
+
+- EventSet.token(param : string) : string
+
+- EventSet.isString(param : string) : boolean 
+
+#### Topic
+
+- Topic.getName() : string
+
+- Topic.getEvent() : Array\<string\>
+
+- Topic.addEvent(eventName : string) : Array\<string\>
+
+- Topic.removeEvent(eventName : string) : Array\<string\>
+
+- Topic.addListener(eventName : string , listener : any) : Array\<any\>
+
+- Topic.getListener(eventName : string) : Array\<any\>
+
+- Topic.removeListener(eventName : string , listener : any) : Array\<any\>
+
+- Topic.dispatch(eventName : string , message : any) : undefined

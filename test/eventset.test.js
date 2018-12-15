@@ -2,96 +2,121 @@ const assert = require('assert');
 
 const EventSet = require('../src/index.js');
 
-describe("Test EventSet Class" , function () {
+describe("Test EventSet" , function () {
 
-    it("Test .token(Name : string ) " , function () {
-
-        var Name = "event name with whitespace";
-
-        var actual = EventSet.token(Name);
-            assert.equal(actual , "eventnamewithwhitespace");
-    });    
-
-    it("Test .getTopicName()",  function(){
-            
-        var topic = EventSet.createTopic('topic-1');
-
-        // tested method
-        var actual = topic.getTopicName();
-            assert.strictEqual(actual , 'topic-1');
-        
-    });
-
-    it("Test .addEvent(eventName : string)",  function(){
-            
-        var topic = EventSet.createTopic('topic-1');
-
-            // tested method
-            assert.strictEqual(topic.addEvent('event-name') , true);
-
-            // added eventName twice is not allowed
-            assert.strictEqual(topic.addEvent('event-name') , false);
-        
-    });
-
-    it("Test .addListener(eventName : string , listener : Object )" , function () {
-
-        var topic = EventSet.createTopic('topic-1');
-            topic.addEvent('event-1');
-        
-        var listenerObject = 'listenerObject';
-        
-        // tested method
-        var actual = topic.addListener('event-1' , listenerObject);
-            assert.equal(actual.size , 1);
-
-    });
-
-    it("Test .addListener(eventName : string , listener : Object ) Throw Error" , function () {
-
-        var topic = EventSet.createTopic('topic-1');
+    it("Test EventSet() Throws exception" , function () {
 
         assert.throws(function(){
-            var listenerObject = 'listenerObject';
-                topic.addListener('event-1' , listenerObject);
+            EventSet();
         }, 'Error');
 
     });
 
-    it("Test .getListener(eventName : string)" , function () {
+    it("Test .createTopic() " , function () {
+
+        var topic = EventSet.createTopic("topic-name");
+            assert.strictEqual(topic instanceof Object , true);
+    });
+
+    it("Test .token() " , function () {
+
+        var actual = EventSet.token("event name with whitespace");
+            assert.strictEqual(actual , "eventnamewithwhitespace");
+    });
+
+    it("Test .isString() " , function () {
+
+        var valid = EventSet.isString('string');
+            assert.strictEqual(valid , true);
         
+        var notValid = EventSet.isString({});
+            assert.strictEqual(notValid , false);
+    });
+
+});
+   
+describe("Test Topic" , function () {
+
+    it("Test .getName()",  function(){
+            
+        var topic = EventSet.createTopic('topic-name');            
+            assert.strictEqual(topic.getName('topic-name') , 'topic-name');
+        
+    });
+
+    it("Test .getEvent()",  function(){
+            
+        var topic = EventSet.createTopic('topic-1');
+            topic.addEvent('event-1');
+
+        var result = topic.getEvent();
+            assert.strictEqual(result[0] , 'event-1'); 
+    });
+
+    it("Test .addEvent()",  function(){
+            
         var topic = EventSet.createTopic('topic-1');
 
-        var emptyListener = topic.getListener('event-1');
-            assert.equal(emptyListener.size , 0);
+        var result = topic.addEvent('event-1');
+            assert.strictEqual(result.length, 1);      
+    });
+
+    it("Test .removeEvent()",  function(){
+            
+        var topic = EventSet.createTopic('topic-1');
+            topic.addEvent('event-1');
+
+        var result = topic.removeEvent('event-1');
+            assert.strictEqual(result.length, 0);      
+
+    });
+    
+
+    it("Test .addListener()" , function () {
+
+        var topic = EventSet.createTopic('topic-1');
+            topic.addEvent('event-1');
+        
+        var result = topic.addListener('event-1' , 'listenerObject');
+            assert.strictEqual(result.length , 1);
+
+    });
+
+    it("Test .addListener() Throws Error" , function () {
+
+        var topic = EventSet.createTopic('topic-1');
+
+        // add listener to not registered event
+        assert.throws(function(){
+                topic.addListener('not-available-event' , 'listenerObject');
+        }, 'Error');
+
+    });
+
+    it("Test .getListener()" , function () {
+        
+        var topic = EventSet.createTopic('topic-1');
 
             topic.addEvent('event-1');
             topic.addListener('event-1' , 'listener-1');
 
-        // tested method
-        var listenerSet = topic.getListener('event-1');
+        var listenerArray = topic.getListener('event-1');
 
-            assert.equal(listenerSet.size , 1);
-            assert.equal(listenerSet.has('listener-1') , true);
+            assert.strictEqual(listenerArray.length , 1);
+            assert.strictEqual(listenerArray[0] , 'listener-1');
     });
 
-    it("Test .removeListener(eventName : string , listener : Object)" , function () {
+    it("Test .removeListener()" , function () {
 
-        var topic = EventSet.createTopic('topic-1');
-
-            assert.equal(false , topic.removeListener('event-1' , 'listener-1'));
-        
+        var topic = EventSet.createTopic('topic-1');        
             topic.addEvent('event-1');
             topic.addListener('event-1' , 'listener-1');
             
-        // tested method
-        var listenerSet = topic.removeListener('event-1' , 'listener-1');
-
-            assert.equal(listenerSet.size , 0);
-            assert.equal(listenerSet.has('listener-1') , false);
+        var listenerArray = topic.removeListener('event-1' , 'listener-1');
+            assert.strictEqual(listenerArray.length , 0);
     });
 
-    it("Test .dispatch(eventName : string , message : any)" , function () {
+    it("Test .dispatch()" , function () {
 
         var dataObject = {};
         
@@ -106,11 +131,11 @@ describe("Test EventSet Class" , function () {
             topic.addEvent('event-1');
             topic.addListener('event-1' , listenerAction.bind(dataObject));
         
-        // tested method
         topic.dispatch('event-1' , 'hello word');
         
-        assert.equal(dataObject.topic , 'topic-1' );
-        assert.equal(dataObject.event , 'event-1');
-        assert.equal(dataObject.message , 'hello word');
+        assert.strictEqual(dataObject.topic , 'topic-1' );
+        assert.strictEqual(dataObject.event , 'event-1');
+        assert.strictEqual(dataObject.message , 'hello word');        
+
     });
 });
