@@ -4,7 +4,7 @@
  * @license MIT Licence
  */
 
-var Topic = function(topicName){
+var Topic = function Topic(topicName){
 
     var _eventMap = new Map();
 

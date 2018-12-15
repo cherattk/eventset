@@ -22,7 +22,7 @@ $ node example/example.js
 ### API
 #### EventSet
 
-- EventSet.topic(topicName : string) : Topic
+- EventSet.createTopic(topicName : string) : Topic
 
 - EventSet.token(param : string) : string
 
