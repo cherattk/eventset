@@ -18,15 +18,10 @@ $ npm run test
 ```bash
 $ node example/example.js
 ```
-
 ### API
 #### EventSet
 
 - EventSet.createTopic(topicName : string) : Topic
-
-- EventSet.token(param : string) : string
-
-- EventSet.isString(param : string) : boolean 
 
 #### Topic
 
@@ -38,10 +33,16 @@ $ node example/example.js
 
 - Topic.removeEvent(eventName : string) : Array\<string\>
 
-- Topic.addListener(eventName : string , listener : any) : Array\<any\>
+- Topic.addListener(eventName : string , listener : Function) : string
 
-- Topic.getListener(eventName : string) : Array\<any\>
+- Topic.getListener(eventName : string) : Array\<Function\>
 
-- Topic.removeListener(eventName : string , listener : any) : Array\<any\>
+- Topic.removeListener(listenerId : string) : boolean
 
 - Topic.dispatch(eventName : string , message : any) : undefined
+
+#### Util
+
+- Util.clean(input : string) : string
+
+- Util.isString(input : string) : boolean 
