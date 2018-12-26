@@ -33,7 +33,7 @@ const Topic = function Topic(topicName){
     /**
      * Get all registered events
      * 
-     * @returns {Array<string>} array of event names
+     * @returns {Array<string>} An array of event names
      */
     this.getEvent = function (){
         var result = Array.from(_eventMap.keys());
@@ -45,14 +45,16 @@ const Topic = function Topic(topicName){
      * 
      * @param   {string} eventName - event name
      * 
-     * @returns {Array<string>} 
+     * @returns {Array<string>} An array of event names
      */
     this.addEvent = function (eventName){
         if(!Util.isString(eventName)){
-            var errorMsg = `Topic.addEvent() : eventName argument must be of type string`;            
+            var errorMsg = `Topic.addEvent() : first argument must be of type string`;            
             throw new TypeError(errorMsg);
         }
+
         var eventToken = Util.clean(eventName);
+
         if(!_eventMap.has(eventToken)){
             _eventMap.set(eventToken , new Map());
         }
@@ -64,19 +66,20 @@ const Topic = function Topic(topicName){
      * 
      * @param {string} eventName
      * 
-     * @returns {Array<string>} array of event names
+     * @returns {Array<string>} An array of events names
      */
 
     this.removeEvent = function(eventName) {
         if(!Util.isString(eventName)){
-            var errorMsg = `Topic.removeEvent() : eventName argument must be of type string`;            
+            var errorMsg = `Topic.removeEvent() : first argument must be of type string`;            
             throw new TypeError(errorMsg);
         }
+
         var eventToken = Util.clean(eventName);
+
         if(_eventMap.has(eventToken)){
             _eventMap.delete(eventToken);
         }
-
         return this.getEvent();
     }
 
@@ -88,61 +91,44 @@ const Topic = function Topic(topicName){
      * 
      * @returns {string} listener identifier
      */
-    this.addListener = function(eventName , listenerValue){
+    this.addListener = function(eventName , listener){
         if(!Util.isString(eventName)){
-            var errorMsg = `Topic.addListener() : eventName argument must be of type string`;            
-            throw new TypeError(errorMsg);
+            throw new TypeError(`Topic.addListener() : first argument must be a String type`);
         }
+
+        if(typeof listener !== 'function'){
+            throw new Error(`Topic.addListener() : second argument must be a Function type`);
+        }
+
         var eventToken = Util.clean(eventName);
         if(!_eventMap.has(eventToken)){
-            throw new Error( eventName + ' does not exist');
+            throw new Error( 'Invalid event name : ' + eventName);
         }
 
-        var listener = _eventMap.get(eventToken);
-        var listenerId = eventToken + '/' + (listener.size + 1).toString();
-            listener.set(listenerId , listenerValue);
+        var listenerMap = _eventMap.get(eventToken);
+        var listenerId = eventToken + '/' + (listenerMap.size + 1).toString();
+            listenerMap.set(listenerId , listener);
         
         return listenerId;
-    }
-
-    /**
-     * Get event listeners
-     * 
-     * @param {string} eventName
-     * 
-     * @returns {Array<any>}
-     */    
-    this.getListener = function(eventName){
-        if(!Util.isString(eventName)){
-            var errorMsg = `Topic.getListener() : eventName argument must be of type string`;            
-            throw new TypeError(errorMsg);
-        }
-        var eventToken = Util.clean(eventName);
-        var listener = _eventMap.get(eventToken);
-        if(listener === undefined){
-            return [];
-        }
-        return Array.from(listener.values());
     }
     
 
     /**
-     * Remove event listener
+     * Remove listener
      * 
      * @param {string} listenerId
      * 
-     * @retruns {boolean}
+     * @retruns {boolean} true if it succeeds, false otherwise
      */
     this.removeListener = function(listenerId){
         if(!Util.isString(listenerId)){
             var errorMsg = `Topic.removeListener() : listenerId argument must be of type string`;            
             throw new TypeError(errorMsg);
         }
-        var eventName = listenerId.split("/" , 1);
-        var eventToken = Util.clean(eventName[0]);
 
+        var eventToken = listenerId.split("/" , 1)[0];
         if(!_eventMap.has(eventToken)){
-            throw new Error( eventName + ' does not exist');
+            throw new Error( 'Invalid listener identifier : ' + listenerId);
         }
 
         var listenerMap  = _eventMap.get(eventToken);
@@ -158,20 +144,23 @@ const Topic = function Topic(topicName){
      */
     this.dispatch = function(eventName , message){
         if(!Util.isString(eventName)){
-            var errorMsg = `Topic.dispatch() : eventName argument must be of type string`;            
-            throw new TypeError(errorMsg);
+            throw new TypeError(`Topic.dispatch() : first argument must be of type string`);
+        }        
+        var eventToken = Util.clean(eventName);
+        if(!_eventMap.has(eventToken)){
+            throw new Error('Invalid event name : ' + eventName);
         }
-        var copyMessage = JSON.parse(JSON.stringify(message));
-        var listenerArray = this.getListener(eventName);
 
-        listenerArray.forEach(function(listener){
-            if(typeof listener === 'function'){
-                listener({
-                    topicName    : topicName,
-                    eventName    : eventName, 
-                    eventMessage : copyMessage
-                });
-            }
+        var copyMessage = JSON.parse(JSON.stringify(message));
+        var event  = {
+            topicName    : topicName,
+            eventName    : eventName, 
+            eventMessage : copyMessage
+        };
+        
+        var listenerMap = _eventMap.get(eventToken);
+        listenerMap.forEach(function(listener){
+            listener(event);
         });
     }
 }

@@ -8,12 +8,14 @@ const Topic = require('./topic.js');
  /**
   * EventSet 
   */
-const EventSet = {
 
-    createTopic : function(topicName) {
+
+const EventSet = function() {
+
+    this.createTopic = function(topicName) {
         var _topic = new Topic(topicName);
         return _topic;
     }
 }
 
-module.exports = EventSet;
+module.exports = new EventSet();

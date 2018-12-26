@@ -30,12 +30,12 @@ console.log('4) register listener : ' + secondListener.name);
 
 console.log('5) dispatch event : ' + eventArray[0]);
 
-topic.dispatch('event-1' , 'hello word');
+topic.dispatch('event-1' , 'hello world 1');
 
 topic.removeListener(secondListenerId);
 console.log('\n6) remove listener : ' + secondListener.name);
 
 console.log('7) re-dispatch event : ' + eventArray[0]);
-topic.dispatch('event-1' , 'hello word');
+topic.dispatch('event-1' , 'hello world 2');
 
 

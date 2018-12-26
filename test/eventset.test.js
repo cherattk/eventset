@@ -10,10 +10,12 @@ describe("Test EventSet Object" , function () {
             assert.strictEqual(topic instanceof Object , true);
     });
     
-    it("Test invoking EventSet object as a function throws exception" , function () {
-        assert.throws(function(){
-            EventSet('topic-name');
-        }, 'Error');
+    it("Test create topic twice throws Error" , function () {
+        
+        // EventSet.createTopic('topic-name');
+        // assert.throws(function(){
+        //     EventSet.createTopic('topic-name');
+        // }, 'Error');
 
     });
 
