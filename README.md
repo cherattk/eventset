@@ -25,13 +25,15 @@ $ node example/example.js
 #### EventSet
 
 ```js
-\\ singleton factory
+// Singleton factory
+// Returns Topic Instance
 EventSet.Topic(topicName : string) : Topic
 ```
 
 #### Topic
 
 ```js
+// Returns Topic Name
 Topic.getName() : string
 ```
 

@@ -25,7 +25,8 @@ $ node example/example.js
 #### EventSet
 
 ```js
-\\ singleton factory
+// singleton factory
+// Returns Topic Instance
 EventSet.Topic(topicName : string) : Topic
 ```
 
