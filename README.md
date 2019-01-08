@@ -1,5 +1,5 @@
 # EventSet
-Topic-based Pub-Sub Implementation
+Topic based Pub/Sub Implementation
 
 ##### usage
 ```bash
