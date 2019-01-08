@@ -1,6 +1,6 @@
 {
 	"name": "eventset",
-	"version": "1.6.1",
+	"version": "1.7.0",
 	"description": "Topic based Pub/Sub Implementation",
 	"author": "Karim Cheratt",
 	"keywords": [
