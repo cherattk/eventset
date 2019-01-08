@@ -1,6 +1,7 @@
 /**
- * @copyright Copyright (c) 2018 cheratt karim
+ * @module Topic
  * @license MIT Licence
+ * @copyright Copyright (c) 2018-2019 cheratt karim
  */
 
  const Util = require('./util.js');
@@ -11,7 +12,7 @@
   * 
   * @retruns {Object} New Topic instance 
   */
-const Topic = function Topic(topicName){
+function Topic(topicName){
 
     if(!Util.isString(topicName)){
         var errorMsg = `Topic.Topic() : topicName argument must be of type string`;            

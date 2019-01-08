@@ -1,6 +1,7 @@
 /**
- * @copyright Copyright (c) 2018 cheratt karim
+ * @module Util
  * @license MIT Licence
+ * @copyright Copyright (c) 2018-2019 cheratt karim
  */
 
 

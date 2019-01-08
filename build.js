@@ -17,7 +17,8 @@ fs.readFile(srcPackageFile, fileEncode, function(err, data){
         } , "\t");
 
         fs.writeFile(destPackageFile, json, fileEncode , function(){
-            console.log('Done : process and copy ./package.json to ./build/package.json');
+            var greenCheckedChar = '\x1b[32m \u2713 \x1b[39m';
+            console.log(greenCheckedChar + "process and copy ./package.json to ./build/package.json");
         });
 
     } else {

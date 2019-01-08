@@ -25,7 +25,8 @@ $ node example/example.js
 #### EventSet
 
 ```js
-EventSet.createTopic(topicName : string) : Topic
+\\ singleton factory
+EventSet.Topic(topicName : string) : Topic
 ```
 
 #### Topic

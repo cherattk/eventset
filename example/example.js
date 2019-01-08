@@ -16,7 +16,7 @@ function secondListener(event){
     commonOutput(event);
 }
 
-var topic = EventSet.createTopic('topic-1');
+var topic = EventSet.Topic('topic-1');
 console.log('1) create topic : ' + topic.getName());
 
 var eventArray = topic.addEvent('event-1');
