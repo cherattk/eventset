@@ -1,5 +1,4 @@
-const EventSet = require('../build/index.js');
-
+const EventSet = require('../src/index.js');
 
 function commonOutput(event) {    
     console.log('\t topic name    : ' + event.topicName);

@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const Util = require('../build/util.js');
+const Util = require('../src/util.js');
    
 // *********************************************************************
 

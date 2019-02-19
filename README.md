@@ -17,10 +17,13 @@ $ npm run test:topic
 $ npm run test:util
 ```
 
-### example
+### cli example
 ```bash
-$ node example/example.js
+$ node example/cli.example.js
 ```
+#### Usage with UI Component
+See [Todo App](https://github.com/cherattk/cherattk.github.io)
+
 ### API
 #### EventSet
 

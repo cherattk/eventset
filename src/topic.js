@@ -139,7 +139,7 @@ function Topic(topicName){
 
 
     /**
-     * Dispatch event
+     * Trigger event
      * 
      * @returns {undefined}
      */

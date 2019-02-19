@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const Topic = require('../build/topic.js');
+const Topic = require('../src/topic.js');
    
 // *********************************************************************
 
