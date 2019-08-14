@@ -22,7 +22,7 @@ $ npm run test:util
 $ npm run demo:cli
 ```
 #### Usage with UI Component
-See [Todo App](https://github.com/cherattk/cherattk.github.io)
+See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/web-app)
 
 ### API
 #### EventSet
