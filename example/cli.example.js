@@ -1,43 +1,44 @@
-const EventSet = require('../src/index.js');
+const EventSet = require('../build/index.js');
 
 function commonOutput(event) {
   console.log('\t topic name    : ' + event.topic);
   console.log('\t event name    : ' + event.event);
   console.log('\t event message : ' + event.message);
+  console.log('');
 }
 function firstListener(event) {
-  console.log('   listener 1 output :');
+  console.log(' - listener 1 output :');
   commonOutput(event);
 }
 
 function secondListener(event) {
-  console.log('   listener 2 output :');
+  console.log(' - listener 2 output :');
   commonOutput(event);
 }
 
 // 1 - 
-var topic = EventSet.Topic('topic-1');
+var topic = EventSet.Topic('my-topic');
 console.log('1) create topic : ' + topic.getName());
 
 
 // 2 -
-var eventArray = topic.addEvent('event-1');
+var eventArray = topic.addEvent('my-event');
 console.log('2) register event : ' + eventArray[0]);
 
-topic.addListener('event-1', firstListener);
+topic.addListener('my-event', firstListener);
 console.log('3) register listener : ' + firstListener.name);
 
-var secondListenerId = topic.addListener('event-1', secondListener);
+var secondListenerId = topic.addListener('my-event', secondListener);
 console.log('4) register listener : ' + secondListener.name);
 
-console.log('5) dispatch event : ' + eventArray[0]);
+console.log('\n 5) dispatch event : ' + eventArray[0] + '\n');
 
-topic.dispatch('event-1', 'Hello World 1');
+topic.dispatch('my-event', 'Hello World 1');
 
 topic.removeListener(secondListenerId);
 console.log('\n6) remove listener : ' + secondListener.name);
 
-console.log('7) re-dispatch : ' + eventArray[0]);
-topic.dispatch('event-1', 'Hello World 2');
+console.log('7) re-dispatch event ' + eventArray[0] + ' without message');
+topic.dispatch('my-event');
 
 
