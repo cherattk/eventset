@@ -126,7 +126,7 @@ function Topic(topicName) {
     var eventToken = listenerId.split("/", 1)[0];
     if (!_eventMap.has(eventToken)) {
       throw new Error(`package eventset : Invalid listener identifier :
-                        listener with idetifier ${listenerId} does not exists`);
+                        listener with idetifier ${eventToken} does not exists`);
     }
 
     var listenerMap = _eventMap.get(eventToken);
