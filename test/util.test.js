@@ -1,24 +1,24 @@
 const assert = require('assert');
 
 const Util = require('../src/util.js');
-   
+
 // *********************************************************************
 
-describe("Test Util Object" , function () {
+describe("Test Util Object", function () {
 
-    it("Test .clean() " , function () {
+  it("Test .clean() ", function () {
 
-        var actual = Util.clean("UPPERCASE slash / whitespace ");
-            assert.strictEqual(actual , "uppercaseslashwhitespace");
-    });
+    var actual = Util.clean("UPPERCASE slash / whitespace ");
+    assert.strictEqual(actual, "uppercaseslashwhitespace");
+  });
 
-    it("Test .isString() " , function () {
+  it("Test .isString() ", function () {
 
-        var valid = Util.isString('string');
-        var notValid = Util.isString({});
-        
-            assert.strictEqual(valid , true);        
-            assert.strictEqual(notValid , false);
-    });
-    
+    var valid = Util.isString('string');
+    var notValid = Util.isString({});
+
+    assert.strictEqual(valid, true);
+    assert.strictEqual(notValid, false);
+  });
+
 });

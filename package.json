@@ -1,6 +1,6 @@
 {
     "name": "eventset",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "description": "Topic based Pub-Sub Implementation",
     "author": "Karim Cheratt",
     "keywords": [
@@ -12,14 +12,15 @@
     "license": "MIT",
     "main": "index.js",
     "scripts": {
-        "test:all"     : "mocha --colors test/*.js",
+        "test:all": "mocha --colors test/*.js",
         "test:eventset": "mocha --colors test/eventset.test.js",
-        "test:topic"   : "mocha --colors test/topic.test.js",
-        "test:util"    : "mocha --colors test/util.test.js"
+        "test:topic": "mocha --colors test/topic.test.js",
+        "test:util": "mocha --colors test/util.test.js",
+        "demo:cli" : "node example/cli.example.js"
     },
     "devDependencies": {
-        "mocha": "5.0.5",
-        "rimraf": "^2.6.2"
+        "gulp": "^4.0.2",
+        "mocha": "5.0.5"
     },
     "repository": {
         "type": "git",

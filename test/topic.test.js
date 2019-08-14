@@ -1,126 +1,146 @@
 const assert = require('assert');
 
 const Topic = require('../src/topic.js');
-   
+
 // *********************************************************************
 
-describe("Test Topic Object" , function () {
+describe("Test Topic Object", function () {
 
-    it("Test .getName()",  function(){
-            
-        var topic = new Topic('topic-name');            
-            assert.strictEqual(topic.getName('topic-name') , 'topic-name');
-        
-    });
+  it("Test .getName()", function () {
 
-    it("Test .getEvent()",  function(){
-            
-        var topic = new Topic('topic-1');
-            topic.addEvent('event-1');
+    var topic = new Topic('topic-name');
+    assert.strictEqual(topic.getName('topic-name'), 'topic-name');
 
-        var result = topic.getEvent();
-            assert.strictEqual(result[0] , 'event-1');
-        });
-        
-        it("Test .addEvent()",  function(){
-            
-            var topic = new Topic('topic-1');
-            
-            var result = topic.addEvent('my-event');
-                assert.strictEqual(result.length , 1);
-                assert.strictEqual(result[0] , 'my-event');
-    });
+  });
 
-    it("Test .removeEvent()",  function(){
-            
-        var topic = new Topic('topic-1');        
-            topic.addEvent('event-1');
+  it("Test .getEvent()", function () {
 
-        var result = topic.removeEvent('event-1');
-            assert.strictEqual(result.length, 0);      
+    var topic = new Topic('topic-1');
+    topic.addEvent('event-1');
 
-    });
+    var result = topic.getEvent();
+    assert.strictEqual(result[0], 'event-1');
+  });
 
-    it("Test .addListener()" , function () {
+  it("Test .addEvent()", function () {
 
-        var topic = new Topic('topic-1');
-        
-            topic.addEvent('some-event-name');
+    var topic = new Topic('topic-1');
 
-        var result = topic.addListener('some-event-name' , function listener() {});
+    var result = topic.addEvent('my-event');
+    assert.strictEqual(result.length, 1);
+    assert.strictEqual(result[0], 'my-event');
+  });
 
-            // expected result format = {event-name}/{listener-index}
-            assert.strictEqual(result , 'some-event-name/1');
+  it("Test .removeEvent()", function () {
 
-    });
+    var topic = new Topic('topic-1');
+    topic.addEvent('event-1');
 
-    it("Test .addListener() : throws Error when adding a listener to an unregistered event" , function () {
+    var result = topic.removeEvent('event-1');
+    assert.strictEqual(result.length, 0);
 
-        var topic = new Topic('topic-1');
+  });
 
-        assert.throws(function(){
-                topic.addListener('not-registered-event' , function listener() {});
-        }, 'Error');
+  it("Test .addListener()", function () {
 
-    });
+    var topic = new Topic('topic-1');
 
-    it("Test .addListener() : throws Error if a listener is not a Function" , function () {
+    topic.addEvent('some-event-name');
 
-        var topic = new Topic('topic-1');
-            topic.addEvent('registered-event');
+    var result = topic.addListener('some-event-name', function listener() { });
 
-        assert.throws(function(){
-                topic.addListener('registered-event' , 'wrong-listener-type');
-        }, 'Error');
+    // expected result format = {event-name}/{listener-index}
+    assert.strictEqual(result, 'some-event-name/1');
 
-    });
+  });
 
-    it("Test .removeListener()" , function () {
+  it("Test .addListener() : throws Error when adding a listener to an unregistered event", function () {
 
-        var topic = new Topic('topic-1');        
-            topic.addEvent('event-1');
+    var topic = new Topic('topic-1');
 
-        var listenerId = topic.addListener('event-1' , function() {});
-            
-        var result = topic.removeListener(listenerId);
-            assert.strictEqual(result , true);
-    });
+    assert.throws(function () {
+      topic.addListener('not-registered-event', function listener() { });
+    }, 'Error');
 
-    it("Test .dispatch()" , function () {
+  });
 
-        var dataResult = {};
-        
-        var listener = function(event){
-            this.topic   = event.topicName;
-            this.event   = event.eventName;
-            this.message = event.eventMessage;
-        }
+  it("Test .addListener() : throws Error if a listener is not a Function", function () {
 
-        var topic = new Topic('topic-1');
+    var topic = new Topic('topic-1');
+    topic.addEvent('registered-event');
 
-            topic.addEvent('event-1');
-            topic.addListener('event-1' , listener.bind(dataResult));
-        
-        topic.dispatch('event-1' , 'hello word');
-        
-        assert.strictEqual(dataResult.topic , 'topic-1' );
-        assert.strictEqual(dataResult.event , 'event-1');
-        assert.strictEqual(dataResult.message , 'hello word');        
+    assert.throws(function () {
+      topic.addListener('registered-event', 'wrong-listener-type');
+    }, 'Error');
 
-    });
+  });
 
-    it("Test .dispatch() : throws Error when disptach an unregistered event" , function () {
+  it("Test .removeListener()", function () {
 
-        var topic = new Topic('topic-1');
-        
-        assert.throws(function(){
-            topic.dispatch('event-1' , 'message');
-        }, 'Error');
-        
+    var topic = new Topic('topic-1');
+    topic.addEvent('event-1');
 
-    });
+    var listenerId = topic.addListener('event-1', function () { });
 
-    
+    var result = topic.removeListener(listenerId);
+    assert.strictEqual(result, true);
+  });
 
+  it("Test .dispatch()", function () {
+
+    var dataResult = {};
+
+    var listener = function (event) {
+      this.topic = event.topic;
+      this.event = event.event;
+      this.message = event.message;
+    }
+
+    var topic = new Topic('topic-1');
+
+    topic.addEvent('event-1');
+    topic.addListener('event-1', listener.bind(dataResult));
+
+    topic.dispatch('event-1', 'hello word');
+
+    assert.strictEqual(dataResult.topic, 'topic-1');
+    assert.strictEqual(dataResult.event, 'event-1');
+    assert.strictEqual(dataResult.message, "hello word");
+
+  });
+
+  it("Test .dispatch() : throws Error when dispatching an unregistered event", function () {
+
+    var topic = new Topic('topic-1');
+
+    assert.throws(function () {
+      topic.dispatch('event-1', 'message');
+    }, 'Error');
+
+  });
+
+  it(`Test .dispatch() : dispatching event without message
+      - The 'message' propertie of the listener argument is 'undefined'`, function () {
+
+    var dataResult = {};
+
+    var listener = function (event) {
+      this.topic = event.topic;
+      this.event = event.event;
+      this.message = event.message;
+    }
+
+    var topic = new Topic('topic-1');
+
+    topic.addEvent('event-1');
+    topic.addListener('event-1', listener.bind(dataResult));
+
+    topic.dispatch('event-1');
+
+    assert.strictEqual(dataResult.topic, 'topic-1');
+    assert.strictEqual(dataResult.event, 'event-1');
+    assert.strictEqual(dataResult.message, undefined);
+
+  });
 
 });
