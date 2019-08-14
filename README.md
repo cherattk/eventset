@@ -35,6 +35,7 @@ See [Todo App](https://github.com/cherattk/cherattk.github.io)
  * @returns Topic Instance
  * 
  * */
+
 EventSet.Topic(topicName : string) : Topic
 ```
 
@@ -47,6 +48,7 @@ EventSet.Topic(topicName : string) : Topic
  * @returns {string} Topic Name
  * 
  * */
+
 Topic.getName() : string
 ```
 
@@ -57,6 +59,7 @@ Topic.getName() : string
  * @returns {Array} An array of events name
  * 
  * */
+
 Topic.getEvent() : Array<event : string>
 ```
 
@@ -68,31 +71,33 @@ Topic.getEvent() : Array<event : string>
  * @returns {Array} an array of available events name
  * 
  * */
+
 Topic.addEvent(eventName : string) : Array< event : string>
 ```
 
 ```js 
 /** 
  * Remove the event named 'eventName' from the queue
- * - Notice : all listeners() attached to the event will be remove to
+ * - Notice : all listeners() attached to the event will be remove too
  * 
  * @param {string} eventName 
  * @returns {Array} An array of events
  * 
  * */
+
 Topic.removeEvent(eventName : string) : Array<string>
 ```
 
 ```js
 /** 
- * Add listener() to the event named 'eventName' 
+ * Register listener() to the event named 'eventName' 
  * - The listener() will receive object as argument with 
- * the following properties: 
- * listenerArgument : {  
- * topic : 'topic-name' ,  
- * event : 'event-name' ,  
- * message : 'the-message-passed-with-dispatch()'
- * }
+ *  the following properties: 
+ *    listenerArgument : {  
+ *      topic : 'topic-name' ,  
+ *      event : 'event-name' ,  
+ *      message : 'the-message-passed-with-dispatch()'
+ *    }
  * 
  * - The return value is the listener id that must be 
  *    used with Topic.removeListener() to remove the listener from the queue
@@ -103,6 +108,7 @@ Topic.removeEvent(eventName : string) : Array<string>
  * @returns {string} listener id
  * 
  * */
+
 Topic.addListener(eventName : string , listener : Function) : string
 ```
 
@@ -114,6 +120,7 @@ Topic.addListener(eventName : string , listener : Function) : string
  * @returns true if it succeeds, false otherwise
  * 
  * */
+
 Topic.removeListener(listenerId : string) : boolean
 ```
 
@@ -125,6 +132,7 @@ Topic.removeListener(listenerId : string) : boolean
  * @returns undefined
  * 
  * */
+
 Topic.dispatch(eventName : string , message : any) : undefined
 ```
 
@@ -138,6 +146,7 @@ Topic.dispatch(eventName : string , message : any) : undefined
  * @returns {string} cleaned value
  * 
  * */
+
 Util.clean(input : string) : string
 ```
 
@@ -149,5 +158,6 @@ Util.clean(input : string) : string
  * @returns {boolean}
  * 
  * */
+
 Util.isString(input) : boolean 
 ```
