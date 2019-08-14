@@ -5,7 +5,7 @@ Topic based Pub/Sub Implementation
 ```bash
 $ npm install --save eventset
 ```
-##### Install
+##### source
 ```bash
 $ git clone https://github.com/cherattk/eventset.git
 ``` 
@@ -19,7 +19,7 @@ $ npm run test:util
 
 ### cli example
 ```bash
-$ node example/cli.example.js
+$ npm run demo:cli
 ```
 #### Usage with UI Component
 See [Todo App](https://github.com/cherattk/cherattk.github.io)
@@ -58,9 +58,15 @@ Topic.removeEvent(eventName : string) : Array<string>
 ```
 
 ```js
-// Add listener to the event named eventName
-// Returns listener identifier
-Topic.addListener(eventName : string , listener : Function) : string
+// Add listenerFunction to the event named eventName
+// The ListenerFunction will receive object as argument with the following properties:
+// listenerArgument : { 
+// topic : 'topic-name' , 
+// event : 'event-name' , 
+// message : 'the-message-passed-with-dispatch()'
+// }
+// Returns listenerFunction identifier
+Topic.addListener(eventName : string , listenerFunction : Function) : string
 ```
 
 ```js

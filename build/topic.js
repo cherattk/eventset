@@ -158,7 +158,6 @@ function Topic(topicName) {
     if(typeof copyMessage !== 'undefined'){
       event.message = JSON.parse(copyMessage);
     }
-    else event.message = null;
 
     var listenerMap = _eventMap.get(eventToken);
     listenerMap.forEach(function (listener) {
