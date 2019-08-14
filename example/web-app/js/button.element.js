@@ -14,7 +14,7 @@ function ShowListButton() {
   this.clickHandler = function () {
     _state.showList = !_state.showList;
     this.render();
-    UIEvent.dispatch('toggle-list');
+    UIEvent.dispatch('toggle-list' , "hello world");
   }
 
   this.render = function () {

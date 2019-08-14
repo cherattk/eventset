@@ -20,8 +20,10 @@ function List() {
     UIEvent.addListener('toggle-list' , this.toggleListHandler.bind(this));
   }
 
-  this.toggleListHandler = function(){
-    // we dont need to receive the message content,
+  this.toggleListHandler = function(myCustomEvent){
+    console.log(myCustomEvent);
+
+    // no need to use the content of myCustomEvent,
     // we just toggle the show state
     _state.show = !_state.show;
     // re-render()
