@@ -12,9 +12,6 @@ that is instantiated in **js/ui-event.js** file and exported as **UIEvent** Obje
 It acts as a bridge between components.
 
 #### producer & consumer
-- The producer/publisher is the **ShowListButton** defined in **button.element.js** that trigger **toggle-list** event by calling **UIEvent.dispatch()**, 
-and the consumer/listener is the **List** component defined in **list.element.js**.
-The **List** component subscribes to the **toggle-list** event by 
-adding the it's method **toggleListHandler()** as a callback function by calling **UIEvent.addListener()** method.
-
-####
+- The producer/publisher is the **ShowListButton** defined in **button.element.js** that trigger **toggle-list** event by calling **UIEvent.dispatch()**. 
+- The consumer/listener is the **List** component defined in **list.element.js**. It subscribes to the **toggle-list** event 
+by calling **UIEvent.addListener()** method.
