@@ -12,11 +12,9 @@
     "license": "MIT",
     "main": "index.js",
     "scripts": {
-        "test:all": "mocha --colors test/*.js",
-        "test:eventset": "mocha --colors test/eventset.test.js",
-        "test:topic": "mocha --colors test/topic.test.js",
-        "test:util": "mocha --colors test/util.test.js",
-        "demo:cli" : "node example/cli.example.js"
+        "test": "npm run build && mocha --colors test/*.js",
+        "demo:cli" : "npm run test && node example/cli.example.js",
+        "build" : "gulp build"
     },
     "devDependencies": {
         "gulp": "^4.0.2",

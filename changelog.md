@@ -1,10 +1,15 @@
 # ChangeLog
 All notable changes to this project will be documented in this file
 
+## v1.7.2
+- Fix module path in the tests suite : now the tests import module from the **build** folder.
+- Assign a **null** value to the **message** property of the listener's argument
+rather than leaving it undefined.
+
 ## v1.7.1
 ### Fix
 - **Topic.dispatch()** : the event can now be dispatched without message,
-in this case the listeners argument will not contains message property.  
+in this case the listener's argument does not have the message property.  
 example : Topic.dispatch('show-list') // the second argument can be omited.
 
 ## v1.7.0

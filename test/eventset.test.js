@@ -1,7 +1,7 @@
 const assert = require('assert');
 
-const EventSet = require('../src/index.js');
-const Topic = require('../src/topic.js');
+const EventSet = require('../build/index.js');
+const Topic = require('../build/topic.js');
 
 describe("Test EventSet Object", function () {
 
