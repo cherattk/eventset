@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const Topic = require('../src/topic.js');
+const Topic = require('../build/topic');
 
 // *********************************************************************
 
@@ -109,7 +109,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .dispatch() : throws Error when dispatching an unregistered event", function () {
+  it("Test .dispatch() : throws Error when dispatch an unregistered event", function () {
 
     var topic = new Topic('topic-1');
 
@@ -119,8 +119,8 @@ describe("Test Topic Object", function () {
 
   });
 
-  it(`Test .dispatch() : dispatching event without message
-      - The 'message' propertie of the listener argument is 'undefined'`, function () {
+  it(`Test .dispatch() : dispatch an event without a message
+      - The 'message' property of the listener argument is null`, function () {
 
     var dataResult = {};
 
@@ -139,7 +139,7 @@ describe("Test Topic Object", function () {
 
     assert.strictEqual(dataResult.topic, 'topic-1');
     assert.strictEqual(dataResult.event, 'event-1');
-    assert.strictEqual(dataResult.message, undefined);
+    assert.strictEqual(dataResult.message, null);
 
   });
 

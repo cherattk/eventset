@@ -150,7 +150,11 @@ function Topic(topicName) {
                         event named ${eventName} does not exists`);
     }
 
-    var event = { topic: topicName, event: eventName };
+    var event = { 
+      topic: topicName, 
+      event: eventName,
+      message: null 
+    };
     
     // check if the message is of a valid type
     // JSON.stringify() returns undefined for "Function" and "undefined" value
