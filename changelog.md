@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file
 - Fix module path in the tests suite : now the tests import module from the **build** folder.
 - Assign a **null** value to the **message** property of the listener's argument
 rather than leaving it undefined.
+- Rename Util.iString() to Util.isValidString() which is semantically more accurate.
 
 ## v1.7.1
 ### Fix

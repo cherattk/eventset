@@ -15,7 +15,7 @@ const Util = require('./util.js');
 
 function Topic(topicName) {
 
-  if (!Util.isString(topicName)) {
+  if (!Util.isValidString(topicName)) {
     throw new TypeError(`package eventset : Topic.Topic() : topicName argument must be of type string`);
   }
 
@@ -48,7 +48,7 @@ function Topic(topicName) {
    * @returns {Array<string>} An array of event names
    */
   this.addEvent = function (eventName) {
-    if (!Util.isString(eventName)) {
+    if (!Util.isValidString(eventName)) {
       throw new TypeError(`package eventset : Topic.addEvent() : eventName argument must be of type string`);
     }
 
@@ -68,7 +68,7 @@ function Topic(topicName) {
    */
 
   this.removeEvent = function (eventName) {
-    if (!Util.isString(eventName)) {
+    if (!Util.isValidString(eventName)) {
       throw new TypeError(`package eventset : Topic.removeEvent() : eventName argument must be of type string`);
     }
 
@@ -89,7 +89,7 @@ function Topic(topicName) {
    * @returns {string} listener identifier
    */
   this.addListener = function (eventName, listener) {
-    if (!Util.isString(eventName)) {
+    if (!Util.isValidString(eventName)) {
       throw new TypeError(`package eventset : Topic.addListener() : eventName argument must be a String type`);
     }
 
@@ -119,7 +119,7 @@ function Topic(topicName) {
    * @retruns {boolean} true if it succeeds, false otherwise
    */
   this.removeListener = function (listenerId) {
-    if (!Util.isString(listenerId)) {
+    if (!Util.isValidString(listenerId)) {
       throw new TypeError(`package eventset : Topic.removeListener() : listenerId argument must be of type string`);
     }
 
@@ -141,7 +141,7 @@ function Topic(topicName) {
    * @returns {undefined}
    */
   this.dispatch = function (eventName, message) {
-    if (!Util.isString(eventName)) {
+    if (!Util.isValidString(eventName)) {
       throw new TypeError(`package eventset : Topic.dispatch() : eventName argument must be of type string`);
     }
     var eventToken = Util.clean(eventName);

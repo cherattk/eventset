@@ -13,7 +13,7 @@ const Util = {
    * @param {string} value to clean 
    */
   clean: function (input) {
-    if (!this.isString(input)) {
+    if (!this.isValidString(input)) {
       throw new TypeError(`package eventset : Util.clean(input) : input argument must be of type string`);
     }
     return input.toLowerCase().replace(/\s|\//g, "");
@@ -23,7 +23,7 @@ const Util = {
    * 
    * @param {string} input
    */
-  isString: function (input) {
+  isValidString: function (input) {
     return (typeof input === 'string' && input !== '');
   }
 

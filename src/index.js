@@ -17,7 +17,7 @@ function EventSet() {
 
   this.Topic = function (topicName) {
 
-    if (!Util.isString(topicName)) {
+    if (!Util.isValidString(topicName)) {
       throw new TypeError(`package eventset : EventSet.createTopic() : topicName argument must be of type string`);
     }
 

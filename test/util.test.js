@@ -12,10 +12,10 @@ describe("Test Util Object", function () {
     assert.strictEqual(actual, "uppercaseslashwhitespace");
   });
 
-  it("Test .isString() ", function () {
+  it("Test .isValidString() ", function () {
 
-    var valid = Util.isString('string');
-    var notValid = Util.isString({});
+    var valid = Util.isValidString('string');
+    var notValid = Util.isValidString({});
 
     assert.strictEqual(valid, true);
     assert.strictEqual(notValid, false);
