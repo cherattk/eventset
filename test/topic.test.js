@@ -120,7 +120,7 @@ describe("Test Topic Object", function () {
   });
 
   it(`Test .dispatch() : dispatch an event without a message
-      - The 'message' property of the listener argument is null`, function () {
+      - The 'message' property of the listener argument is defined as null`, function () {
 
     var dataResult = {};
 
