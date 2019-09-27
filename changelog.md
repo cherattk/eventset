@@ -1,6 +1,11 @@
 # ChangeLog
 All notable changes to this project will be documented in this file
 
+## v1.7.3
+- **message** property of the listener's argument is set to 
+empty object when no message is dispatched
+- Rename **Topic.getEvent()** to **Topic.getEventList()**
+
 ## v1.7.2
 - Fix module path in the tests suite : now the tests import module from the **build** folder.
 - Assign a **null** value to the **message** property of the listener's argument

@@ -35,17 +35,18 @@ function Topic(topicName) {
    * 
    * @returns {Array<string>} An array of event names
    */
-  this.getEvent = function () {
+  this.getEventList = function () {
     var result = Array.from(_eventMap.keys());
     return result;
   }
 
   /**
    * Register the event to the topic
+   * and returns an array of registered events
    * 
    * @param   {string} eventName - event name
    * 
-   * @returns {Array<string>} An array of event names
+   * @returns {Array<string>} An array of events
    */
   this.addEvent = function (eventName) {
     if (!Util.isValidString(eventName)) {
@@ -57,14 +58,14 @@ function Topic(topicName) {
     if (!_eventMap.has(eventToken)) {
       _eventMap.set(eventToken, new Map());
     }
-    return this.getEvent();
+    return this.getEventList();
   }
 
   /**
    * Remove the event from the topic and all its attached listeners
    * 
    * @param {string} eventName 
-   * @returns {Array<string>} An array of events names
+   * @returns {Array<string>} An array of events
    */
 
   this.removeEvent = function (eventName) {
@@ -77,7 +78,7 @@ function Topic(topicName) {
     if (_eventMap.has(eventToken)) {
       _eventMap.delete(eventToken);
     }
-    return this.getEvent();
+    return this.getEventList();
   }
 
   /**
@@ -153,7 +154,7 @@ function Topic(topicName) {
     var event = { 
       topic: topicName, 
       event: eventName,
-      message: null 
+      message: {} 
     };
     
     // check if the message is of a valid type
