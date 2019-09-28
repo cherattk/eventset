@@ -159,5 +159,5 @@ Util.clean(input : string) : string
  * 
  * */
 
-Util.isString(input) : boolean 
+Util.isValidString(input) : boolean 
 ```
