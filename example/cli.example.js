@@ -31,9 +31,10 @@ console.log('3) register listener : ' + firstListener.name);
 var secondListenerId = topic.addListener('my-event', secondListener);
 console.log('4) register listener : ' + secondListener.name);
 
-console.log('\n 5) dispatch event : ' + eventArray[0] + '\n');
+var eventMessage = 'Hello World';
+console.log(`\n 5) dispatch event : '${eventArray[0]}' with message '${eventMessage}'`);
 
-topic.dispatch('my-event', 'Hello World 1');
+topic.dispatch('my-event', eventMessage);
 
 topic.removeListener(secondListenerId);
 console.log('\n6) remove listener : ' + secondListener.name);

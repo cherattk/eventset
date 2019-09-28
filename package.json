@@ -16,7 +16,7 @@
         "test:eventset": "npm run build && mocha --colors test/eventset.test.js",
         "test:topic": "npm run build && mocha --colors test/topic.test.js",
         "test:util": "npm run build && mocha --colors test/util.test.js",
-        "demo:cli": "npm run test && node example/cli.example.js",
+        "demo:cli": "npm run test:all && node example/cli.example.js",
         "build": "gulp build"
     },
     "devDependencies": {
