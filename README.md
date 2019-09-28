@@ -60,7 +60,7 @@ Topic.getName() : string
  * 
  * */
 
-Topic.getEvent() : Array<event : string>
+Topic.getEventList() : Array<event : string>
 ```
 
 ```js
