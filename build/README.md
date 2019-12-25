@@ -11,7 +11,7 @@ $ git clone https://github.com/cherattk/eventset.git
 ``` 
 ### test
 ```bash
-$ npm run test:all
+$ npm run test
 $ npm run test:eventset
 $ npm run test:topic
 $ npm run test:util
@@ -21,7 +21,7 @@ $ npm run test:util
 ```bash
 $ npm run demo:cli
 ```
-#### Usage with UI Component
+#### Browser usage.
 See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/web-app)
 
 ### API
@@ -36,7 +36,7 @@ See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/w
  * 
  * */
 
-EventSet.Topic(topicName : string) : Topic
+EventSet.createTopic(topicName : string) : Topic
 ```
 
 #### Topic

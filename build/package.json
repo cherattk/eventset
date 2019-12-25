@@ -1,7 +1,7 @@
 {
     "name": "eventset",
-    "version": "1.7.3",
-    "description": "Topic based Pub-Sub Implementation",
+    "version": "1.8.0",
+    "description": "Asyncronous Topic based Pub-Sub Implementation",
     "author": "Karim Cheratt",
     "keywords": [
         "eventset",
@@ -12,16 +12,17 @@
     "license": "MIT",
     "main": "index.js",
     "scripts": {
-        "test:all": "npm run build && mocha --colors test/*.js",
+        "test": "npm run build && mocha --colors test/*.js",
         "test:eventset": "npm run build && mocha --colors test/eventset.test.js",
         "test:topic": "npm run build && mocha --colors test/topic.test.js",
         "test:util": "npm run build && mocha --colors test/util.test.js",
-        "demo:cli": "npm run test:all && node example/cli.example.js",
+        "demo:cli": "npm run test && node example/cli.example.js",
         "build": "gulp build"
     },
     "devDependencies": {
         "gulp": "^4.0.2",
-        "mocha": "5.0.5"
+        "mocha": "5.0.5",
+        "chai": "^4.2.0"
     },
     "repository": {
         "type": "git",
@@ -30,8 +31,5 @@
     "bugs": {
         "url": "https://github.com/cherattk/eventset/issues"
     },
-    "homepage": "https://github.com/cherattk/eventset#readme",
-    "dependencies": {
-        "chai": "^4.2.0"
-    }
+    "homepage": "https://github.com/cherattk/eventset#readme"
 }

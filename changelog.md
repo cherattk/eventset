@@ -1,6 +1,9 @@
 # ChangeLog
 All notable changes to this project will be documented in this file
 
+## v1.8.0
+- Asynchronous call to event listeners.
+
 ## v1.7.3
 - **message** property of the listener's argument is set to 
 empty object when no message is dispatched.
