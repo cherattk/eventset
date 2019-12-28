@@ -1,6 +1,6 @@
 const eventset = require('eventset');
 
-var UIEvent = eventset.Topic('app-ui-event');
+var UIEvent = eventset.createTopic('app-ui-event');
 
 UIEvent.addEvent('toggle-list');
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "demo:build" : "browserify js/main.js -o ./bundle.js"
+    "demo:build": "browserify js/main.js -o ./bundle.js"
   },
   "author": "karim cheratt",
   "license": "MIT",

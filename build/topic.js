@@ -5,6 +5,7 @@
  */
 
 const Util = require('./util.js');
+const node_util = require('util');
 
 /**
  * Create a new Topic Object to store a set of events
@@ -89,12 +90,12 @@ function Topic(topicName) {
    * 
    * @returns {string} listener identifier
    */
-  this.addListener = function (eventName, listener) {
+  this.addListener = function (eventName, listenerCallback, errorCallback) {
     if (!Util.isValidString(eventName)) {
       throw new TypeError(`package eventset : Topic.addListener() : eventName argument must be a String type`);
     }
 
-    if (typeof listener !== 'function') {
+    if (typeof listenerCallback !== 'function') {
       throw new Error(`package eventset : Topic.addListener() : the listener argument must be a Function`);
     }
 
@@ -106,7 +107,12 @@ function Topic(topicName) {
 
     var listenerMap = _eventMap.get(eventToken);
     var listenerId = eventToken + '/' + (listenerMap.size + 1).toString();
-    listenerMap.set(listenerId, listener);
+
+    listenerMap.set(listenerId, {
+      listener: listenerCallback,
+      error: (typeof errorCallback === 'function' ? errorCallback :
+      function (listenerError) { console.log(listenerError); })
+    });
 
     return listenerId;
   }
@@ -135,7 +141,6 @@ function Topic(topicName) {
     return deleteResult;
   }
 
-
   /**
    * Trigger event
    * 
@@ -151,22 +156,32 @@ function Topic(topicName) {
                         event named ${eventName} does not exists`);
     }
 
-    var event = { 
-      topic: topicName, 
+    var event = {
+      topic: topicName,
       event: eventName,
-      message: {} 
+      message: {}
     };
-    
+
     // check if the message is of a valid type
     // JSON.stringify() returns undefined for "Function" and "undefined" value
     var copyMessage = JSON.stringify(message);
-    if(typeof copyMessage !== 'undefined'){
+    if (typeof copyMessage !== 'undefined') {
       event.message = JSON.parse(copyMessage);
     }
 
     var listenerMap = _eventMap.get(eventToken);
-    listenerMap.forEach(function (listener) {
-      listener(event);
+    listenerMap.forEach(function (callback, listener_id) {
+      setTimeout(function () {
+        try {
+          callback.listener(event);
+        } catch (error) {
+          callback.error({
+            event: eventName,
+            listenerId: listener_id,
+            error: error
+          })
+        }
+      }, 0);
     });
   }
 }

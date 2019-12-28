@@ -51,7 +51,7 @@ describe("Test Topic Object", function () {
 
     topic.addEvent('some-event-name');
 
-    var listener_id = topic.addListener('some-event-name', function listener() { });
+    var listener_id = topic.addListener('some-event-name', function listener() {});
 
     // expected result format = {event-name}/{listener-index}
     expect(listener_id).to.equal('some-event-name/1');
@@ -90,26 +90,60 @@ describe("Test Topic Object", function () {
     expect(result).to.equal(true);
   });
 
-  it("Test .dispatch()", function () {
-
-    var dataResult = {};
+  it("Test .dispatch() : Calls the registered listener", function (done) {
 
     var listener = function (event) {
-      this.topic = event.topic;
-      this.event = event.event;
-      this.message = event.message;
+      expect(event.topic).to.equal('topic-1');
+      expect(event.event).to.equal('event-1');
+      expect(event.message).to.equal('hello');
+      done();
     }
 
     var topic = new Topic('topic-1');
-
     topic.addEvent('event-1');
-    topic.addListener('event-1', listener.bind(dataResult));
+    topic.addListener('event-1', listener);
+    topic.dispatch('event-1', 'hello');
 
-    topic.dispatch('event-1', 'hello word');
+  });
 
-    expect(dataResult.topic).to.equal('topic-1');
-    expect(dataResult.event).to.equal('event-1');
-    expect(dataResult.message).to.equal("hello word");
+  it("Test .dispatch() : Does not block the dispatching loop", function (done) {
+
+    var topic = new Topic('topic-1');
+
+    var listener_1_throws_error = function(){
+      throw new Error();
+    }
+
+    var listener_2 = function(event) {
+      expect(event.topic).to.equal('topic-1');
+      expect(event.event).to.equal('event-1');
+      expect(event.message).to.equal('hello');
+      done();
+    }
+    topic.addEvent('event-1');
+    topic.addListener('event-1', listener_1_throws_error , new Function /* override default error callback */);
+    topic.addListener('event-1', listener_2);
+    topic.dispatch('event-1', 'hello');
+
+  });
+
+  it("Test .dispatch() : Catches listener error", function (done) {
+
+    var topic = new Topic('topic-1');
+
+    var listener_throws_error = function(){
+      throw new Error();
+    }
+
+    var listenerErrorCallback = function(errorObject) {
+      expect(errorObject).to.have.property('event');
+      expect(errorObject).to.have.property('listenerId');
+      expect(errorObject).to.have.property('error');
+      done();
+    }
+    topic.addEvent('event-1');
+    topic.addListener('event-1', listener_throws_error , listenerErrorCallback /* override default error callback */);
+    topic.dispatch('event-1', 'hello');
 
   });
 
@@ -124,26 +158,19 @@ describe("Test Topic Object", function () {
   });
 
   it(`Test .dispatch() : dispatch an event without a message
-      - The 'message' property of the listener argument is set to empty object`, function () {
-
-    var dataResult = {};
+      - The 'message' property of the listener argument is an empty object`, function (done) {
 
     var listener = function (event) {
-      this.topic = event.topic;
-      this.event = event.event;
-      this.message = event.message;
+      expect(event.topic).to.equal('topic-1');
+      expect(event.event).to.equal('event-1');
+      expect(event.message).to.be.empty;
+      done();
     }
 
     var topic = new Topic('topic-1');
-
     topic.addEvent('event-1');
-    topic.addListener('event-1', listener.bind(dataResult));
-
+    topic.addListener('event-1', listener);
     topic.dispatch('event-1');
-
-    expect(dataResult.topic).to.equal('topic-1');
-    expect(dataResult.event).to.equal('event-1');
-    expect(dataResult.message).to.be.empty;
 
   });
 

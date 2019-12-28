@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in this file
 
 ## v1.8.0
-- Asynchronous call to event listeners.
+- Non-Blocking call to event listeners event when listenr throws Error.
+- **Topic.dispatch()** accepts error callback function as third argument. 
+  By default the Error is sent to the console.
+- Rename **Eventset.Topic()** to **Eventset.createTopic()**
 
 ## v1.7.3
 - **message** property of the listener's argument is set to 

@@ -13,16 +13,12 @@
     "main": "index.js",
     "scripts": {
         "test": "npm run build && mocha --colors test/*.js",
-        "test:eventset": "npm run build && mocha --colors test/eventset.test.js",
-        "test:topic": "npm run build && mocha --colors test/topic.test.js",
-        "test:util": "npm run build && mocha --colors test/util.test.js",
-        "demo:cli": "npm run test && node example/cli.example.js",
         "build": "gulp build"
     },
     "devDependencies": {
+        "chai": "^4.2.0",
         "gulp": "^4.0.2",
-        "mocha": "5.0.5",
-        "chai": "^4.2.0"
+        "mocha": "5.0.5"
     },
     "repository": {
         "type": "git",

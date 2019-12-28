@@ -30,6 +30,7 @@ function List() {
     this.render();
   }
 
+
   this.render = function () {
     var showState = _state.show ? 'show' : 'hide';
     var list = _state.list.map(function(data){

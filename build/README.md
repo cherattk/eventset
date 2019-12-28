@@ -12,14 +12,6 @@ $ git clone https://github.com/cherattk/eventset.git
 ### test
 ```bash
 $ npm run test
-$ npm run test:eventset
-$ npm run test:topic
-$ npm run test:util
-```
-
-### Demo
-```bash
-$ npm run demo:cli
 ```
 #### Browser usage.
 See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/web-app)
