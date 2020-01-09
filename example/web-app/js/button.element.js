@@ -2,7 +2,7 @@ const UIEvent = require('./ui-event');
 
 function ShowListButton() {
 
-  var _state = {showList : true};
+  var _state = {showList : false};
   var _element = null;
 
   this.init = function (config) {
@@ -14,11 +14,11 @@ function ShowListButton() {
   this.clickHandler = function () {
     _state.showList = !_state.showList;
     this.render();
-    UIEvent.dispatch('toggle-list');
+    UIEvent.dispatch('show-list' , {show : _state.showList});
   }
 
   this.render = function () {
-    var text = _state.showList ? 'Show List' : 'Hide List';
+    var text = _state.showList ? 'Hide List' : 'Show List';
     _element.innerHTML = `
       <span id="btn-show-list" class="button">
         ${text}

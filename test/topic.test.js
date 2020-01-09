@@ -132,13 +132,19 @@ describe("Test Topic Object", function () {
     var topic = new Topic('topic-1');
 
     var listener_throws_error = function(){
-      throw new Error();
+      throw new Error("test-error");
     }
 
-    var listenerErrorCallback = function(errorObject) {
-      expect(errorObject).to.have.property('event');
-      expect(errorObject).to.have.property('listenerId');
-      expect(errorObject).to.have.property('error');
+    // error handler
+    var listenerErrorCallback = function(errorObject , eventObject) {
+      
+      expect(errorObject).to.have.property('message');
+      expect(errorObject.message).to.equal('test-error');
+
+      expect(eventObject).to.have.property('topic');
+      expect(eventObject).to.have.property('event');
+      expect(eventObject).to.have.property('message');
+
       done();
     }
     topic.addEvent('event-1');

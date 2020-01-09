@@ -17,19 +17,15 @@ function List() {
     this.render();
   
     // register listener to 'toggle-list' event
-    UIEvent.addListener('toggle-list' , this.toggleListHandler.bind(this));
+    UIEvent.addListener('show-list' , this.toggleList.bind(this));
   }
 
-  this.toggleListHandler = function(myCustomEvent){
-    console.log(myCustomEvent);
-
-    // no need to use the content of myCustomEvent,
-    // we just toggle the show state
-    _state.show = !_state.show;
+  this.toggleList = function(myCustomEvent){
+    _state.show = myCustomEvent.message.show;
     // re-render()
     this.render();
-  }
 
+  }
 
   this.render = function () {
     var showState = _state.show ? 'show' : 'hide';

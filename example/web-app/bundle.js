@@ -63,7 +63,6 @@ function Topic(topicName) {
   }
 
   var _eventMap = new Map();
-  var _dispatchError = [];
 
   /**
    * Get Topic Name
@@ -144,8 +143,7 @@ function Topic(topicName) {
 
     var eventToken = Util.clean(eventName);
     if (!_eventMap.has(eventToken)) {
-      throw new Error(`package eventset : Topic.addListener() Invalid event name : 
-                        event named ${eventName} does not exists`);
+      throw new Error(`package eventset : Topic.addListener() Invalid event name : event named ${eventName} does not exists`);
     }
 
     var listenerMap = _eventMap.get(eventToken);
@@ -154,7 +152,7 @@ function Topic(topicName) {
     listenerMap.set(listenerId, {
       listener: listenerCallback,
       error: (typeof errorCallback === 'function' ? errorCallback :
-      function (listenerError) { console.log(listenerError); })
+        function (listenerError) { console.log(listenerError); })
     });
 
     return listenerId;
@@ -175,18 +173,12 @@ function Topic(topicName) {
 
     var eventToken = listenerId.split("/", 1)[0];
     if (!_eventMap.has(eventToken)) {
-      throw new Error(`package eventset : Invalid listener identifier :
-                        listener with idetifier ${eventToken} does not exists`);
+      throw new Error(`package eventset : Invalid listener identifier : listener with idetifier ${eventToken} does not exists`);
     }
 
     var listenerMap = _eventMap.get(eventToken);
     var deleteResult = listenerMap.delete(listenerId);
     return deleteResult;
-  }
-
-
-  this.getDispatchError = function () {
-    return _dispatchError.slice();
   }
 
   /**
@@ -200,8 +192,7 @@ function Topic(topicName) {
     }
     var eventToken = Util.clean(eventName);
     if (!_eventMap.has(eventToken)) {
-      throw new Error(`package eventset : Topic.dispatch() Invalid event name : 
-                        event named ${eventName} does not exists`);
+      throw new Error(`package eventset : Topic.dispatch() Invalid event name : event named ${eventName} does not exists`);
     }
 
     var event = {
@@ -223,11 +214,7 @@ function Topic(topicName) {
         try {
           callback.listener(event);
         } catch (error) {
-          callback.error({
-            event: eventName,
-            listenerId: listener_id,
-            error: error
-          })
+          callback.error( error, event );
         }
       }, 0);
     });
@@ -273,7 +260,7 @@ const UIEvent = require('./ui-event');
 
 function ShowListButton() {
 
-  var _state = {showList : true};
+  var _state = {showList : false};
   var _element = null;
 
   this.init = function (config) {
@@ -285,11 +272,11 @@ function ShowListButton() {
   this.clickHandler = function () {
     _state.showList = !_state.showList;
     this.render();
-    UIEvent.dispatch('toggle-list');
+    UIEvent.dispatch('show-list' , {show : _state.showList});
   }
 
   this.render = function () {
-    var text = _state.showList ? 'Show List' : 'Hide List';
+    var text = _state.showList ? 'Hide List' : 'Show List';
     _element.innerHTML = `
       <span id="btn-show-list" class="button">
         ${text}
@@ -321,17 +308,14 @@ function List() {
     this.render();
   
     // register listener to 'toggle-list' event
-    UIEvent.addListener('toggle-list' , this.toggleListHandler.bind(this));
+    UIEvent.addListener('show-list' , this.toggleList.bind(this));
   }
 
-  this.toggleListHandler = function(myCustomEvent){
-    console.log(myCustomEvent);
-
-    // no need to use the content of myCustomEvent,
-    // we just toggle the show state
-    _state.show = !_state.show;
+  this.toggleList = function(myCustomEvent){
+    _state.show = myCustomEvent.message.show;
     // re-render()
     this.render();
+
   }
 
   this.render = function () {
@@ -355,19 +339,35 @@ module.exports = function(config){
 const Button = require('./button.element');
 const List = require('./list.element');
 
-// init button
+
+const UIEvent = require('./ui-event');
+
+
+// Register listener BEFORE List() component,
+// this listener Throws Error that will be catched
+
+UIEvent.addListener('show-list',
+  function listener(eventMessage) {
+    throw new Error('listener error :');
+  },
+  function (error, event) {
+    console.log("catched listener error : ");
+    console.log(event);
+    console.log(error);
+  })
+
 Button({
-  anchor_id : 'show-list-button'
+  anchor_id: 'show-list-button'
 });
 List({
-  anchor_id : 'list'
+  anchor_id: 'list'
 });
-},{"./button.element":4,"./list.element":5}],7:[function(require,module,exports){
+},{"./button.element":4,"./list.element":5,"./ui-event":7}],7:[function(require,module,exports){
 const eventset = require('eventset');
 
 var UIEvent = eventset.createTopic('app-ui-event');
 
-UIEvent.addEvent('toggle-list');
+UIEvent.addEvent('show-list');
 
 module.exports = UIEvent;
 },{"eventset":1}],8:[function(require,module,exports){

@@ -82,26 +82,29 @@ Topic.removeEvent(eventName : string) : Array<string>
 
 ```js
 /** 
- * Register listener() to the event named 'eventName' 
- * - The listener() will receive object as argument with 
+ * Register listener function to the event named 'eventName' 
+ * - The listener function will receive object as argument with 
  *  the following properties: 
- *    listenerArgument : {  
+ *    {  
  *      topic : 'topic-name' ,  
  *      event : 'event-name' ,  
  *      message : 'the-message-passed-with-dispatch()'
  *    }
+ * 
+ * - The errorCallback function will receive the Error thown by the listenerCallback
  * 
  * - The return value is the listener id that must be 
  *    used with Topic.removeListener() to remove the listener from the queue
  * 
  * @param {string} eventName
  * @param {Function} listener
+ * @param {Function} errorCallback
  * 
  * @returns {string} listener id
  * 
  * */
 
-Topic.addListener(eventName : string , listener : Function) : string
+Topic.addListener(eventName : string , listener : Function , errorCallback : Function) : string
 ```
 
 ```js

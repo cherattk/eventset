@@ -101,8 +101,7 @@ function Topic(topicName) {
 
     var eventToken = Util.clean(eventName);
     if (!_eventMap.has(eventToken)) {
-      throw new Error(`package eventset : Topic.addListener() Invalid event name : 
-                        event named ${eventName} does not exists`);
+      throw new Error(`package eventset : Topic.addListener() Invalid event name : event named ${eventName} does not exists`);
     }
 
     var listenerMap = _eventMap.get(eventToken);
@@ -111,7 +110,7 @@ function Topic(topicName) {
     listenerMap.set(listenerId, {
       listener: listenerCallback,
       error: (typeof errorCallback === 'function' ? errorCallback :
-      function (listenerError) { console.log(listenerError); })
+        function (listenerError) { console.log(listenerError); })
     });
 
     return listenerId;
@@ -132,8 +131,7 @@ function Topic(topicName) {
 
     var eventToken = listenerId.split("/", 1)[0];
     if (!_eventMap.has(eventToken)) {
-      throw new Error(`package eventset : Invalid listener identifier :
-                        listener with idetifier ${eventToken} does not exists`);
+      throw new Error(`package eventset : Invalid listener identifier : listener with idetifier ${eventToken} does not exists`);
     }
 
     var listenerMap = _eventMap.get(eventToken);
@@ -152,8 +150,7 @@ function Topic(topicName) {
     }
     var eventToken = Util.clean(eventName);
     if (!_eventMap.has(eventToken)) {
-      throw new Error(`package eventset : Topic.dispatch() Invalid event name : 
-                        event named ${eventName} does not exists`);
+      throw new Error(`package eventset : Topic.dispatch() Invalid event name : event named ${eventName} does not exists`);
     }
 
     var event = {
@@ -175,11 +172,7 @@ function Topic(topicName) {
         try {
           callback.listener(event);
         } catch (error) {
-          callback.error({
-            event: eventName,
-            listenerId: listener_id,
-            error: error
-          })
+          callback.error( error, event );
         }
       }, 0);
     });
