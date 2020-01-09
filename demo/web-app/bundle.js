@@ -256,7 +256,7 @@ const Util = {
 
 module.exports = Util;
 },{}],4:[function(require,module,exports){
-const UIEvent = require('./ui-event');
+const EventStore = require('./ui-event');
 
 function ShowListButton() {
 
@@ -272,7 +272,9 @@ function ShowListButton() {
   this.clickHandler = function () {
     _state.showList = !_state.showList;
     this.render();
-    UIEvent.dispatch('show-list' , {show : _state.showList});
+    
+    EventStore.UIEvent.dispatch('show-list' , {show : _state.showList});
+    EventStore.DataEvent.dispatch('get-data-list' , {data_list : ['value-1' , 'value-2' , 'value-3']});
   }
 
   this.render = function () {
@@ -289,7 +291,7 @@ module.exports = function (config) {
   b.init(config);
 };;
 },{"./ui-event":7}],5:[function(require,module,exports){
-const UIEvent = require('./ui-event');
+const EventStore = require('./ui-event');
 
 function List() {
 
@@ -308,7 +310,12 @@ function List() {
     this.render();
   
     // register listener to 'toggle-list' event
-    UIEvent.addListener('show-list' , this.toggleList.bind(this));
+    EventStore.UIEvent.addListener('show-list' , this.toggleList.bind(this));
+    EventStore.DataEvent.addListener('get-data-list' , function name(myEvent) {
+      console.log('topic : ' + myEvent.topic);
+      console.log('event : ' + myEvent.event);
+      console.log('message : ' + JSON.stringify(myEvent.message));
+    });
   }
 
   this.toggleList = function(myCustomEvent){
@@ -340,21 +347,18 @@ const Button = require('./button.element');
 const List = require('./list.element');
 
 
-const UIEvent = require('./ui-event');
-
-
-// Register listener BEFORE List() component,
-// this listener Throws Error that will be catched
-
-UIEvent.addListener('show-list',
-  function listener(eventMessage) {
-    throw new Error('listener error :');
-  },
-  function (error, event) {
-    console.log("catched listener error : ");
-    console.log(event);
-    console.log(error);
-  })
+// const UIEvent = require('./ui-event');
+// // Register listener BEFORE List() component,
+// // this listener Throws Error that will be catched
+// UIEvent.addListener('show-list',
+//   function listener(eventMessage) {
+//     throw new Error('the-error');
+//   },
+//   function (error, event) {
+//     console.log("catched listener error : ");
+//     console.log(event);
+//     console.log(error);
+//   })
 
 Button({
   anchor_id: 'show-list-button'
@@ -362,14 +366,25 @@ Button({
 List({
   anchor_id: 'list'
 });
-},{"./button.element":4,"./list.element":5,"./ui-event":7}],7:[function(require,module,exports){
+},{"./button.element":4,"./list.element":5}],7:[function(require,module,exports){
 const eventset = require('eventset');
 
+// create one event store named 'app-ui-event' to store UI Event
 var UIEvent = eventset.createTopic('app-ui-event');
 
+// create another event store named 'app-data-event' to store Data Event
+var DataEvent = eventset.createTopic('app-data-event');
+
+// register event 'show-list' to 'app-ui-event' topic
 UIEvent.addEvent('show-list');
 
-module.exports = UIEvent;
+// register event 'get-data-list' to 'app-data-event' topic
+DataEvent.addEvent('get-data-list');
+
+module.exports = {
+  UIEvent ,
+  DataEvent
+};
 },{"eventset":1}],8:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

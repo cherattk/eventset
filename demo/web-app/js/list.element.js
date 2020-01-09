@@ -1,4 +1,4 @@
-const UIEvent = require('./ui-event');
+const EventStore = require('./ui-event');
 
 function List() {
 
@@ -17,7 +17,12 @@ function List() {
     this.render();
   
     // register listener to 'toggle-list' event
-    UIEvent.addListener('show-list' , this.toggleList.bind(this));
+    EventStore.UIEvent.addListener('show-list' , this.toggleList.bind(this));
+    EventStore.DataEvent.addListener('get-data-list' , function name(myEvent) {
+      console.log('topic : ' + myEvent.topic);
+      console.log('event : ' + myEvent.event);
+      console.log('message : ' + JSON.stringify(myEvent.message));
+    });
   }
 
   this.toggleList = function(myCustomEvent){

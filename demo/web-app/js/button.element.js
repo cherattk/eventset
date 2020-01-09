@@ -1,4 +1,4 @@
-const UIEvent = require('./ui-event');
+const EventStore = require('./ui-event');
 
 function ShowListButton() {
 
@@ -14,7 +14,9 @@ function ShowListButton() {
   this.clickHandler = function () {
     _state.showList = !_state.showList;
     this.render();
-    UIEvent.dispatch('show-list' , {show : _state.showList});
+    
+    EventStore.UIEvent.dispatch('show-list' , {show : _state.showList});
+    EventStore.DataEvent.dispatch('get-data-list' , {data_list : ['value-1' , 'value-2' , 'value-3']});
   }
 
   this.render = function () {
