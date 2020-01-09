@@ -13,6 +13,55 @@ $ git clone https://github.com/cherattk/eventset.git
 ```bash
 $ npm run test
 ```
+
+#### Usage
+
+1- Define all application event in one main event file
+```js
+/**
+ * ./my-event-store.js file
+ * */
+const eventset = require('eventset');
+
+var UIEvent = eventset.createTopic('app-ui-event');
+
+UIEvent.addEvent('show-list-event');
+
+UIEvent.addEvent('my-another-event');
+
+module.exports = UIEvent;
+
+```
+2- import event store and attache listener to the the event
+```js
+/**
+ * ./my-list-component.js
+ * */
+const UIEvent = require('./my-event-store.js');
+
+// register listener to 'show-list-event' event
+UIEvent.addListener('show-list-event' , 
+    // callback
+    function(myEvent){
+      console.log(JSON.stringify(myEvent));
+    }, 
+    // callback error
+    function(callbackError){
+      console.log(callbackError);
+});
+  
+```
+3- trigger event
+```js
+/**
+ * ./my-button-component.js
+ * */
+const UIEvent = require('./my-event-store.js');
+
+UIEvent.dispatch('show-list-event' , {show : true});
+
+```
+
 #### Browser usage.
 See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/web-app)
 
@@ -93,7 +142,7 @@ Topic.removeEvent(eventName : string) : Array<string>
  * 
  * - The errorCallback function will receive the Error thown by the listenerCallback
  * 
- * - The return value is the listener id that must be 
+ * - The returned value is the listener id that must be 
  *    used with Topic.removeListener() to remove the listener from the queue
  * 
  * @param {string} eventName
