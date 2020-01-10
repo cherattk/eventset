@@ -5,16 +5,15 @@
  */
 
 const Util = require('./util.js');
-const node_util = require('util');
 
 /**
- * Create a new Topic Object to store a set of events
+ * Topic constructor
  * 
  * @param {string} topicName
  * @retruns {Object} New Topic instance 
  */
 
-function Topic(topicName) {
+module.exports = function Topic(topicName) {
 
   if (!Util.isValidString(topicName)) {
     throw new TypeError(`package eventset : Topic.Topic() : topicName argument must be of type string`);
@@ -178,5 +177,3 @@ function Topic(topicName) {
     });
   }
 }
-
-module.exports = Topic;

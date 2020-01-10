@@ -121,7 +121,7 @@ describe("Test Topic Object", function () {
       done();
     }
     topic.addEvent('event-1');
-    topic.addListener('event-1', listener_1_throws_error , new Function /* override default error callback */);
+    topic.addListener('event-1', listener_1_throws_error , new Function /* "overriding" default error callback */);
     topic.addListener('event-1', listener_2);
     topic.dispatch('event-1', 'hello');
 

@@ -23,13 +23,22 @@ $ npm run test
  * */
 const eventset = require('eventset');
 
+// create one event store named 'app-ui-event' to store UI Event
 var UIEvent = eventset.createTopic('app-ui-event');
 
-UIEvent.addEvent('show-list-event');
+// create another event store named 'app-data-event' to store Data Event
+var DataEvent = eventset.createTopic('app-data-event');
 
-UIEvent.addEvent('my-another-event');
+// register event 'show-list' to 'app-ui-event' topic
+UIEvent.addEvent('show-list');
 
-module.exports = UIEvent;
+// register event 'get-data-list' to 'app-data-event' topic
+DataEvent.addEvent('get-data-list');
+
+module.exports = {
+  UIEvent ,
+  DataEvent
+};
 
 ```
 2- import event store and attache listener to the the event
@@ -37,18 +46,25 @@ module.exports = UIEvent;
 /**
  * ./my-list-component.js
  * */
-const UIEvent = require('./my-event-store.js');
+const EventStore = require('./my-event-store.js');
 
-// register listener to 'show-list-event' event
-UIEvent.addListener('show-list-event' , 
+EventStore.UIEvent.addListener('show-list' , 
     // callback
     function(myEvent){
       console.log(JSON.stringify(myEvent));
-    }, 
+    });
+
+EventStore.DataEvent.addListener('get-data-list' , 
+    // callback
+    function(myEvent){
+      console.log(JSON.stringify(myEvent));
+    },
     // callback error
     function(callbackError){
       console.log(callbackError);
 });
+
+
   
 ```
 3- trigger event
@@ -56,9 +72,11 @@ UIEvent.addListener('show-list-event' ,
 /**
  * ./my-button-component.js
  * */
-const UIEvent = require('./my-event-store.js');
+const EventStore = require('./my-event-store.js');
 
-UIEvent.dispatch('show-list-event' , {show : true});
+EventStore.UIEvent.dispatch('show-list' , {show : true});
+
+EventStore.DataEvent.dispatch('get-data-list' , {data_list : ['value-1' , 'value-2' , 'value-3']});
 
 ```
 
@@ -79,7 +97,14 @@ See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/w
 
 EventSet.createTopic(topicName : string) : Topic
 ```
-
+```js
+/**
+   * @deprecated since 1.8.0
+   * @alias of Eventset.createTopic()
+   * 
+   */
+  EventSet.Topic(topicName : string) : Topic
+```
 #### Topic
 
 ```js

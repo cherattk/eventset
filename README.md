@@ -97,7 +97,14 @@ See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/w
 
 EventSet.createTopic(topicName : string) : Topic
 ```
-
+```js
+/**
+   * @deprecated since 1.8.0
+   * @alias of Eventset.createTopic()
+   * 
+   */
+  EventSet.Topic(topicName : string) : Topic
+```
 #### Topic
 
 ```js

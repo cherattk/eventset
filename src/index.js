@@ -15,21 +15,37 @@ function EventSet() {
 
   var _topicList = new Map();
 
-  this.createTopic = function (_topicName) {
+  /**
+   * @deprecated since 1.8.0
+   * @alias of Eventset.createTopic()
+   * 
+   */
+  this.Topic = function(topicName) {
+    return this.createTopic(topicName);
+  }
 
-    if (!Util.isValidString(_topicName)) {
+/** 
+ * Singleton factory for a Topic instance
+ * 
+ * @param {string} topicName 
+ * @returns Topic Instance
+ * 
+ * */
+  this.createTopic = function (topicName) {
+
+    if (!Util.isValidString(topicName)) {
       throw new TypeError(`package eventset : EventSet.createTopic() : topicName argument must be of type string`);
     }
 
     var _topic = null;
-    var _topicToken = Util.clean(_topicName);
+    var _topicToken = Util.clean(topicName);
 
     if (_topicList.has(_topicToken)) {
-      _topic = _topicList.get(_topicName);
+      _topic = _topicList.get(topicName);
     }
     else {
-      _topic = new Topic(_topicName);
-      _topicList.set(_topicName, _topic);
+      _topic = new Topic(topicName);
+      _topicList.set(topicName, _topic);
     }
 
     return _topic;
