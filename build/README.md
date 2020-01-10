@@ -79,12 +79,10 @@ EventStore.UIEvent.dispatch('show-list' , {show : true});
 EventStore.DataEvent.dispatch('get-data-list' , {data_list : ['value-1' , 'value-2' , 'value-3']});
 
 ```
-
-#### Browser usage.
 See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/web-app)
 
 ### API
-#### EventSet
+#### EventSet : index.js
 
 ```js
 /** 
@@ -105,7 +103,7 @@ EventSet.createTopic(topicName : string) : Topic
    */
   EventSet.Topic(topicName : string) : Topic
 ```
-#### Topic
+#### Topic : topic.js
 
 ```js
 /**
@@ -205,7 +203,7 @@ Topic.removeListener(listenerId : string) : boolean
 Topic.dispatch(eventName : string , message : any) : undefined
 ```
 
-#### Util
+#### Util : util.js
 
 ```js
 /** 
