@@ -1,8 +1,8 @@
 const assert = require('assert');
 const expect = require('chai').expect;
 
-const EventSet = require('../build/index.js');
-const Topic = require('../build/topic.js');
+const EventSet = require('../src/index.js');
+const Topic = require('../src/topic.js');
 
 describe("Test EventSet Object", function () {
 

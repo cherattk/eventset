@@ -1,6 +1,6 @@
 const assert = require('assert');
 const expect = require('chai').expect;
-const Topic = require('../build/topic');
+const Topic = require('../src/topic');
 
 // *********************************************************************
 
