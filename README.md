@@ -79,7 +79,6 @@ EventStore.UIEvent.dispatch('show-list' , {show : true});
 EventStore.DataEvent.dispatch('get-data-list' , {data_list : ['value-1' , 'value-2' , 'value-3']});
 
 ```
-See [example/web-app](https://github.com/cherattk/eventset/blob/master/example/web-app)
 
 ### API
 #### EventSet : index.js

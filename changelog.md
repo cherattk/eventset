@@ -1,6 +1,11 @@
 # ChangeLog
 All notable changes to this project will be documented in this file
 
+## v1.8.1
+- Update dev dependencies
+- update readme file
+- remove build/ folder
+
 ## v1.8.0
 - Fix devDependencies.
 - Asynchronous and Non-Blocking call of event listeners, even when listener callback throws Error.
