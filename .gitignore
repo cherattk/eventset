@@ -3,3 +3,4 @@ draft/
 node_modules/
 .vscode/
 todo.md
+.nyc_output/

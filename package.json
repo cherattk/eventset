@@ -1,17 +1,26 @@
 {
     "name": "eventset",
-    "version": "1.8.1",
+    "version": "1.8.2",
     "description": "Asyncronous Topic based Pub-Sub Implementation",
     "author": "Karim Cheratt",
-    "keywords": [ "eventset", "pub-sub",  "event driven", "topic based" ],
+    "keywords": [
+        "eventset",
+        "pub-sub",
+        "event driven",
+        "topic based"
+    ],
     "license": "MIT",
-    "main": "src/index.js",
+    "main": "index.js",
     "scripts": {
-        "test": "mocha --colors test/*.js"
+        "test": "nyc mocha --colors test/*.js",
+        "test:index": "nyc mocha --colors test/index.test.js",
+        "test:topic": "nyc mocha --colors test/topic.test.js",
+        "test:util": "nyc mocha --colors test/util.test.js"
     },
     "devDependencies": {
         "chai": "^4.2.0",
-        "mocha": "^8.1.3"
+        "mocha": "^8.1.3",
+        "nyc": "^15.1.0"
     },
     "repository": {
         "type": "git",

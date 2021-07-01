@@ -61,12 +61,14 @@ module.exports = function Topic(topicName) {
     return this.getEventList();
   }
 
-  /**
-   * Remove the event from the topic and all its attached listeners
-   * 
-   * @param {string} eventName 
-   * @returns {Array<string>} An array of events
-   */
+  /** 
+  * Remove the event named 'eventName' from the queue
+  * - Notice : all listeners() attached to the event will be remove too
+  * 
+  * @param {string} eventName 
+  * @returns {Array} An array of events
+  * 
+  * */
 
   this.removeEvent = function (eventName) {
     if (!Util.isValidString(eventName)) {
@@ -81,14 +83,28 @@ module.exports = function Topic(topicName) {
     return this.getEventList();
   }
 
-  /**
-   * Register event listener
-   * 
-   * @param {string} eventName
-   * @param {Function} listener
-   * 
-   * @returns {string} listener identifier
-   */
+  /** 
+     * Register listener function to the event named 'eventName' 
+     * - The listener function will receive object as argument with 
+     *  the following properties: 
+     *    {  
+     *      topic : 'topic-name' ,  
+     *      event : 'event-name' ,  
+     *      message : 'the-message-passed-with-dispatch()'
+     *    }
+     * 
+     * - The errorCallback function will receive the Error thown by the listenerCallback
+     * 
+     * - The returned value is the listener id that must be 
+     *    used with Topic.removeListener() to remove the listener from the queue
+     * 
+     * @param {string} eventName
+     * @param {Function} listener
+     * @param {Function} errorCallback
+     * 
+     * @returns {string} listener id
+     * 
+     * */
   this.addListener = function (eventName, listenerCallback, errorCallback) {
     if (!Util.isValidString(eventName)) {
       throw new TypeError(`package eventset : Topic.addListener() : eventName argument must be a String type`);
@@ -171,7 +187,7 @@ module.exports = function Topic(topicName) {
         try {
           callback.listener(event);
         } catch (error) {
-          callback.error( error, event );
+          callback.error(error, event);
         }
       }, 0);
     });

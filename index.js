@@ -11,26 +11,27 @@ const Util = require('./util.js');
 /**
  * EventSet 
  */
-function EventSet() {
+function __EventSet() {
 
   var _topicList = new Map();
 
   /**
-   * @deprecated since 1.8.0
-   * @alias of Eventset.createTopic()
-   * 
-   */
-  this.Topic = function(topicName) {
+  * @deprecated will be removed in v1.9.0
+  * @alias of Eventset.Topic()
+  * 
+  */
+  this.Topic = function (topicName) {
     return this.createTopic(topicName);
   }
 
-/** 
- * Singleton factory for a Topic instance
- * 
- * @param {string} topicName 
- * @returns Topic Instance
- * 
- * */
+
+  /** 
+  * Singleton factory for a Topic instance
+  * 
+  * @param {string} topicName 
+  * @returns Topic Instance
+  * 
+  * */
   this.createTopic = function (topicName) {
 
     if (!Util.isValidString(topicName)) {
@@ -52,4 +53,4 @@ function EventSet() {
   }
 }
 
-module.exports = new EventSet();
+module.exports = new __EventSet();

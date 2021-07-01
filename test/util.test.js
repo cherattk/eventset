@@ -1,18 +1,18 @@
 const assert = require('assert');
 
-const Util = require('../src/util.js');
+const Util = require('../util.js');
 
 // *********************************************************************
 
 describe("Test Util Object", function () {
 
-  it("Test .clean() ", function () {
+  it("Test Util.clean() ", function () {
 
     var actual = Util.clean("UPPERCASE slash / whitespace ");
     assert.strictEqual(actual, "uppercaseslashwhitespace");
   });
 
-  it("Test .isValidString() ", function () {
+  it("Test Util.isValidString() ", function () {
 
     var valid = Util.isValidString('string');
     var notValid = Util.isValidString({});

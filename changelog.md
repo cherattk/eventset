@@ -1,5 +1,42 @@
 # ChangeLog
-All notable changes to this project will be documented in this file
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## Types of changes
+**Added** for new features.
+**Changed** for changes in existing functionality.
+**Deprecated** for soon-to-be removed features.
+**Removed** for now removed features.
+**Fixed** for any bug fixes.
+**Security** in case of vulnerabilities.
+
+
+### 1.9.0 [Unreleased]
+### Added
+- **Topic.on()** alias of **Topic.addListener()**.
+
+### Changed
+- **Topic.addListener()** can accept an array on events.
+- **Topic.addEvent()** accepts an array of events.
+
+**************************************************************************************************
+
+## v1.8.2 - 2021-06-30
+## Added
+- Code coverage to tests.
+
+### Changed
+- **changelog.md** now follows **https://keepachangelog.com/en/1.0.0/** recommendation.
+
+### Deprecated
+- **Eventset.Topic()** - use **Eventset.createTopic()** instead.
+
+### Removed
+- Remove **demo/** folder.
+
+**************************************************************************************************
 
 ## v1.8.1
 - Update dev dependencies

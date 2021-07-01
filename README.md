@@ -19,20 +19,20 @@ $ npm run test
 1- Define all application event in one main event file
 ```js
 /**
- * ./my-event-store.js file
+ * ./my-events-store.js file
  * */
 const eventset = require('eventset');
 
-// create one event store named 'app-ui-event' to store UI Event
+// create one events store named 'app-ui-event' to store UI related events
 var UIEvent = eventset.createTopic('app-ui-event');
 
-// create another event store named 'app-data-event' to store Data Event
+// create another events store named 'app-data-event' to store Data related events
 var DataEvent = eventset.createTopic('app-data-event');
 
-// register event 'show-list' to 'app-ui-event' topic
+// register event "show-list" in "app-ui-event" topic
 UIEvent.addEvent('show-list');
 
-// register event 'get-data-list' to 'app-data-event' topic
+// register event "get-data-list" in "app-data-event" topic
 DataEvent.addEvent('get-data-list');
 
 module.exports = {
@@ -41,12 +41,12 @@ module.exports = {
 };
 
 ```
-2- import event store and attache listener to the the event
+2- import events store and attache listener to events
 ```js
 /**
  * ./my-list-component.js
  * */
-const EventStore = require('./my-event-store.js');
+const EventStore = require('./my-events-store.js');
 
 EventStore.UIEvent.addListener('show-list' , 
     // callback
@@ -102,38 +102,38 @@ EventSet.createTopic(topicName : string) : Topic
    */
   EventSet.Topic(topicName : string) : Topic
 ```
+
 #### Topic : topic.js
 
 ```js
 /**
- * Topic name getter
+ * Get Topic Name
  * 
- * @returns {string} Topic Name
- * 
- * */
+ * @returns {string} topic name
+ */
 
 Topic.getName() : string
 ```
 
 ```js 
 /**
- * Get list of events name
+ * Get all registered events
  * 
- * @returns {Array} An array of events name
- * 
- * */
+ * @returns {Array<string>} An array of event names
+ */
 
 Topic.getEventList() : Array<event : string>
 ```
 
 ```js
-/** 
- * Append event named 'eventName' to events queue
+/**
+ * Register the event to the topic
+ * and returns an array of registered events
  * 
- * @param {string} eventName
- * @returns {Array} an array of available events name
+ * @param   {string} eventName - event name
  * 
- * */
+ * @returns {Array<string>} An array of events
+ */
 
 Topic.addEvent(eventName : string) : Array< event : string>
 ```

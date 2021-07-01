@@ -1,12 +1,12 @@
 const assert = require('assert');
 const expect = require('chai').expect;
-const Topic = require('../src/topic');
+const Topic = require('../topic.js');
 
 // *********************************************************************
 
 describe("Test Topic Object", function () {
 
-  it("Test .getName()", function () {
+  it("Test Topic.getName()", function () {
 
     var topic = new Topic('topic-name');
     var topicName = topic.getName('topic-name');
@@ -14,7 +14,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .getEventList()", function () {
+  it("Test Topic.getEventList()", function () {
 
     var topic = new Topic('topic-1');
     topic.addEvent('event-1');
@@ -24,7 +24,7 @@ describe("Test Topic Object", function () {
     expect(eventName).to.equal('event-1');
   });
 
-  it("Test .addEvent()", function () {
+  it("Test Topic.addEvent()", function () {
 
     var topic = new Topic('topic-1');
 
@@ -35,7 +35,7 @@ describe("Test Topic Object", function () {
     expect(eventName).to.equal('my-event');
   });
 
-  it("Test .removeEvent()", function () {
+  it("Test Topic.removeEvent()", function () {
 
     var topic = new Topic('topic-1');
     topic.addEvent('event-1');
@@ -45,7 +45,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .addListener()", function () {
+  it("Test Topic.addListener()", function () {
 
     var topic = new Topic('topic-1');
 
@@ -58,7 +58,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .addListener() : throws Error when adding a listener to an unregistered event", function () {
+  it("Test Topic.addListener() : throws Error when adding a listener to an unregistered event", function () {
 
     var topic = new Topic('topic-1');
 
@@ -68,7 +68,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .addListener() : throws Error if a listener is not a Function", function () {
+  it("Test Topic.addListener() : throws Error if a listener is not a Function", function () {
 
     var topic = new Topic('topic-1');
     topic.addEvent('registered-event');
@@ -79,7 +79,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .removeListener()", function () {
+  it("Test Topic.removeListener()", function () {
 
     var topic = new Topic('topic-1');
     topic.addEvent('event-1');
@@ -90,7 +90,7 @@ describe("Test Topic Object", function () {
     expect(result).to.equal(true);
   });
 
-  it("Test .dispatch() : Calls the registered listener", function (done) {
+  it("Test Topic.dispatch() : Calls the registered listener", function (done) {
 
     var listener = function (event) {
       expect(event.topic).to.equal('topic-1');
@@ -106,7 +106,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .dispatch() : Does not block the dispatching loop", function (done) {
+  it("Test Topic.dispatch() : Does not block the dispatching loop", function (done) {
 
     var topic = new Topic('topic-1');
 
@@ -127,7 +127,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .dispatch() : Catches listener error", function (done) {
+  it("Test Topic.dispatch() : Catches listener error", function (done) {
 
     var topic = new Topic('topic-1');
 
@@ -153,7 +153,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it("Test .dispatch() : throws Error when dispatch an unregistered event", function () {
+  it("Test Topic.dispatch() : throws Error when dispatch an unregistered event", function () {
 
     var topic = new Topic('topic-1');
 
@@ -163,7 +163,7 @@ describe("Test Topic Object", function () {
 
   });
 
-  it(`Test .dispatch() : dispatch an event without a message
+  it(`Test Topic.dispatch() : dispatch an event without a message
       - The 'message' property of the listener argument is an empty object`, function (done) {
 
     var listener = function (event) {
