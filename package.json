@@ -10,16 +10,17 @@
         "topic based"
     ],
     "license": "MIT",
-    "main": "index.js",
+    "main": "eventset.js",
     "scripts": {
-        "test": "nyc mocha --colors test/*.js",
-        "test:index": "nyc mocha --colors test/index.test.js",
+        "test": "nyc mocha --colors test/*.test.js",
+        "test:eventset": "nyc mocha --colors test/eventset.test.js",
         "test:topic": "nyc mocha --colors test/topic.test.js",
-        "test:util": "nyc mocha --colors test/util.test.js"
+        "test:util": "nyc mocha --colors test/util.test.js",
+        "test:usage": "node test/example.usage.js"
     },
     "devDependencies": {
-        "chai": "^4.2.0",
-        "mocha": "^8.1.3",
+        "chai": "^4.3.4",
+        "mocha": "^8.4.0",
         "nyc": "^15.1.0"
     },
     "repository": {

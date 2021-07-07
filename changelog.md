@@ -33,9 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 - **Eventset.Topic()** - use **Eventset.createTopic()** instead.
 
-### Removed
-- Remove **demo/** folder.
-
 **************************************************************************************************
 
 ## v1.8.1

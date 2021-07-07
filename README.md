@@ -14,7 +14,9 @@ $ git clone https://github.com/cherattk/eventset.git
 $ npm run test
 ```
 
-#### Usage
+#### Usage 
+
+see[usage test file](./test/usage.test.js)
 
 1- Define all application event in one main event file
 ```js
