@@ -1,6 +1,4 @@
-doc/
-draft/
+dev/
 node_modules/
 .vscode/
-todo.md
 .nyc_output/

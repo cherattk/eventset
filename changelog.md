@@ -11,26 +11,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Removed** for now removed features.
 **Fixed** for any bug fixes.
 **Security** in case of vulnerabilities.
+**Date Format** yyyy-mm-dd
 
 
-### 1.9.0 [Unreleased]
-### Added
+## 1.9.0 [Unreleased]
+#### Added
 - **Topic.on()** alias of **Topic.addListener()**.
 
-### Changed
+#### Changed
 - **Topic.addListener()** can accept an array on events.
 - **Topic.addEvent()** accepts an array of events.
 
 **************************************************************************************************
 
-## v1.8.2 - 2021-06-30
-## Added
+## v1.8.3 - 2021-07-08
+#### Fixed
+- Fix the release date of the version v1.8.2 in changelog.md.
+- Prevent **.nyc_output** (a testsuites output folder) to be published.
+
+#### Changed
+- Cosmetic change of changelog.md.
+
+**************************************************************************************************
+
+## v1.8.2 - 2021-07-07
+#### Added
 - Code coverage to tests.
 
-### Changed
+#### Changed
 - **changelog.md** now follows **https://keepachangelog.com/en/1.0.0/** recommendation.
 
-### Deprecated
+#### Deprecated
 - **Eventset.Topic()** - use **Eventset.createTopic()** instead.
 
 **************************************************************************************************
@@ -59,16 +70,16 @@ rather than leaving it undefined.
 - Rename Util.iString() to Util.isValidString() which is semantically more accurate.
 
 ## v1.7.1
-### Fix
+#### Fix
 - **Topic.dispatch()** : the event can now be dispatched without message,
 in this case the listener's argument does not have the message property.  
 example : Topic.dispatch('show-list') // the second argument can be omited.
 
 ## v1.7.0
-### Added
+#### Added
 - Add changelog file
 - Add a link to an example usage with UI Components
 
-### Changed
+#### Changed
 - package.json : remove build command
 - rename example.js to cli.example.js
