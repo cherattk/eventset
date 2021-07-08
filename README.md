@@ -1,86 +1,20 @@
 # EventSet
 Topic based Pub/Sub Implementation
 
-### usage
+### installation
 ```bash
 $ npm install --save eventset
 ```
-### source
-```bash
-$ git clone https://github.com/cherattk/eventset.git
-``` 
 ### test
 ```bash
+$ git clone https://github.com/cherattk/eventset.git
+$ cd eventset
 $ npm run test
+$ npm run test:usage
 ```
 
-#### Usage 
-
-see[usage test file](./test/usage.test.js)
-
-1- Define all application event in one main event file
-```js
-/**
- * ./my-events-store.js file
- * */
-const eventset = require('eventset');
-
-// create one events store named 'app-ui-event' to store UI related events
-var UIEvent = eventset.createTopic('app-ui-event');
-
-// create another events store named 'app-data-event' to store Data related events
-var DataEvent = eventset.createTopic('app-data-event');
-
-// register event "show-list" in "app-ui-event" topic
-UIEvent.addEvent('show-list');
-
-// register event "get-data-list" in "app-data-event" topic
-DataEvent.addEvent('get-data-list');
-
-module.exports = {
-  UIEvent ,
-  DataEvent
-};
-
-```
-2- import events store and attache listener to events
-```js
-/**
- * ./my-list-component.js
- * */
-const EventStore = require('./my-events-store.js');
-
-EventStore.UIEvent.addListener('show-list' , 
-    // callback
-    function(myEvent){
-      console.log(JSON.stringify(myEvent));
-    });
-
-EventStore.DataEvent.addListener('get-data-list' , 
-    // callback
-    function(myEvent){
-      console.log(JSON.stringify(myEvent));
-    },
-    // callback error
-    function(callbackError){
-      console.log(callbackError);
-});
-
-
-  
-```
-3- trigger event
-```js
-/**
- * ./my-button-component.js
- * */
-const EventStore = require('./my-event-store.js');
-
-EventStore.UIEvent.dispatch('show-list' , {show : true});
-
-EventStore.DataEvent.dispatch('get-data-list' , {data_list : ['value-1' , 'value-2' , 'value-3']});
-
-```
+#### Example
+see [example file](./test/example.usage.js)
 
 ### API
 #### EventSet : index.js
@@ -93,8 +27,8 @@ EventStore.DataEvent.dispatch('get-data-list' , {data_list : ['value-1' , 'value
  * @returns Topic Instance
  * 
  * */
-
 EventSet.createTopic(topicName : string) : Topic
+
 ```
 ```js
 /**
@@ -103,6 +37,7 @@ EventSet.createTopic(topicName : string) : Topic
    * 
    */
   EventSet.Topic(topicName : string) : Topic
+
 ```
 
 #### Topic : topic.js
@@ -113,8 +48,8 @@ EventSet.createTopic(topicName : string) : Topic
  * 
  * @returns {string} topic name
  */
-
 Topic.getName() : string
+
 ```
 
 ```js 
@@ -123,8 +58,8 @@ Topic.getName() : string
  * 
  * @returns {Array<string>} An array of event names
  */
-
 Topic.getEventList() : Array<event : string>
+
 ```
 
 ```js
@@ -136,8 +71,8 @@ Topic.getEventList() : Array<event : string>
  * 
  * @returns {Array<string>} An array of events
  */
-
 Topic.addEvent(eventName : string) : Array< event : string>
+
 ```
 
 ```js 
@@ -149,8 +84,8 @@ Topic.addEvent(eventName : string) : Array< event : string>
  * @returns {Array} An array of events
  * 
  * */
-
 Topic.removeEvent(eventName : string) : Array<string>
+
 ```
 
 ```js
@@ -176,8 +111,8 @@ Topic.removeEvent(eventName : string) : Array<string>
  * @returns {string} listener id
  * 
  * */
-
 Topic.addListener(eventName : string , listener : Function , errorCallback : Function) : string
+
 ```
 
 ```js
@@ -188,8 +123,8 @@ Topic.addListener(eventName : string , listener : Function , errorCallback : Fun
  * @returns true if it succeeds, false otherwise
  * 
  * */
-
 Topic.removeListener(listenerId : string) : boolean
+
 ```
 
 ```js
@@ -200,8 +135,8 @@ Topic.removeListener(listenerId : string) : boolean
  * @returns undefined
  * 
  * */
-
 Topic.dispatch(eventName : string , message : any) : undefined
+
 ```
 
 #### Util : util.js
@@ -214,8 +149,8 @@ Topic.dispatch(eventName : string , message : any) : undefined
  * @returns {string} cleaned value
  * 
  * */
-
 Util.clean(input : string) : string
+
 ```
 
 ```js
@@ -226,6 +161,6 @@ Util.clean(input : string) : string
  * @returns {boolean}
  * 
  * */
+Util.isValidString(input) : boolean
 
-Util.isValidString(input) : boolean 
 ```
