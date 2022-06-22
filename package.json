@@ -1,6 +1,6 @@
 {
     "name": "eventset",
-    "version": "1.8.5",
+    "version": "1.8.6",
     "description": "Asyncronous Topic based Pub-Sub Implementation",
     "author": "Karim Cheratt",
     "keywords": [
