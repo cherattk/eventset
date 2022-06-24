@@ -9,6 +9,7 @@ $ npm install --save eventset
 ```bash
 $ git clone https://github.com/cherattk/eventset.git
 $ cd eventset
+$ npm install --save-dev
 $ npm run test
 $ npm run test:usage
 ```

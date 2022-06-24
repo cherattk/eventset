@@ -6,11 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Types of changes
 **Added** for new features.
+
 **Changed** for changes in existing functionality.
+
 **Deprecated** for soon-to-be removed features.
+
 **Removed** for now removed features.
+
 **Fixed** for any bug fixes.
+
 **Security** in case of vulnerabilities.
+
 **Date Format** yyyy-mm-dd
 
 
@@ -21,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Changed
 - **Topic.addListener()** can accept an array on events.
 - **Topic.addEvent()** accepts an array of events.
+
+**************************************************************************************************
+## From v1.8.4 To v1.8.8 - 2022-06-24
+#### Fixed
+- test dependencies, README.md and changelog.md.
 
 **************************************************************************************************
 
